@@ -63,7 +63,7 @@ Crystalizer::JSON
 Point(@x=1, @y="a")
 ```
 
-Note: annotations are similar to the stdlib's `Serializable`, but all features are yet fully implemented.
+Note: annotations are similar to the stdlib's `Serializable`, but all features are not yet fully implemented.
 
 ## License
 
