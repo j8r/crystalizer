@@ -29,7 +29,6 @@ dependencies:
 require "crystalizer/json"
 require "crystalizer/yaml"
 
-
 struct Point
   getter x : Int32
   @[Crystalizer::Field(key: "Y")]
@@ -42,10 +41,26 @@ end
 point = Point.new 1, "a"
 
 {Crystalizer::YAML, Crystalizer::JSON}.each do |format|
+  puts format
   string = format.serialize point
   puts string
   puts format.deserialize string, to: Point
 end
+```
+
+Result:
+```
+Crystalizer::YAML
+---
+x: 1
+Y: a
+Point(@x=1, @y="a")
+Crystalizer::JSON
+{
+  "x": 1,
+  "Y": "a"
+}
+Point(@x=1, @y="a")
 ```
 
 Note: annotations are similar to the stdlib's `Serializable`, but all features are yet fully implemented.
