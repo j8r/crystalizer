@@ -10,7 +10,13 @@ module Crystalizer::JSON
     while !pull.kind.end_object?
       key = pull.read_object_key
       deserializer.set_ivar key do |variable|
-        deserialize pull, variable.type
+        if variable.nilable || variable.has_default
+          pull.read_null_or do
+            deserialize pull, variable.type
+          end
+        else
+          deserialize pull, variable.type
+        end
       end
     end
     deserializer.object_instance
