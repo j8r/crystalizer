@@ -40,16 +40,13 @@ struct Crystalizer::Deserializer(T, N)
         {%
           type = ivar.type
           key = ((ann && ann[:key]) || ivar).id.stringify
-          has_default = ivar.has_default_value?
-          default = ivar.default_value
-          nilable = ivar.type.nilable?
         %}
         when {{key}}
           raise Exception.new "duplicated key: #{key}" if @found[{{index}}]
           @found[{{index}}] = true
           variable = Variable({{type}}).new(
-            nilable: {{nilable}},
-            has_default: {{has_default}},
+            nilable: {{ivar.type.nilable?}},
+            has_default: {{ivar.has_default_value?}},
             index: {{index}}
           )
           pointerof(@object_instance.@{{ivar}}).value = yield(variable).as {{type}}
