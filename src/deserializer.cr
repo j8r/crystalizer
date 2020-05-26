@@ -1,17 +1,9 @@
 require "./field"
+require "./variable"
+require "./crystalizer"
 
 struct Crystalizer::Deserializer(T, N)
   class Exception < ::Exception
-  end
-
-  struct Variable(T)
-    protected getter index : Int32
-    getter type : T.class = T
-    getter nilable : Bool
-    getter has_default : Bool
-
-    def initialize(@nilable : Bool, @has_default : Bool, @index : Int32 = 0)
-    end
   end
 
   @found = StaticArray(Bool, N).new false
@@ -29,7 +21,26 @@ struct Crystalizer::Deserializer(T, N)
     {% end %}
   end
 
-  # Sets an object_instance variable for a key.
+  # Yields each instance variable's `Variable` metadata and it value.
+  #
+  # This method can be used for non self-describing formats (which does not holds keys).
+  def set_each_ivar(&)
+    {% for ivar in O.instance_vars %}
+      {% ann = ivar.annotation(::Crystalizer::Field) %}
+      {% unless ann && ann[:ignore] %}
+        {% key = ((ann && ann[:key]) || ivar).id.stringify %}
+        variable = Variable.new(
+          type: {{ivar.type}},
+          annotations: {{ann && ann.named_args}},
+          nilable: {{ivar.type.nilable?}},
+          has_default: {{ivar.has_default_value?}}
+        )
+        object.@{{ivar}} = yield(variable).as {{ivar.type}}
+      {% end %}
+    {% end %}
+  end
+
+  # Sets a value for an instance variable corresponding to the key.
   def set_ivar(key : String, &)
     {% begin %}
     {% index = 0 %}
@@ -37,19 +48,17 @@ struct Crystalizer::Deserializer(T, N)
     {% for ivar in T.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
       {% unless ann && ann[:ignore] %}
-        {%
-          type = ivar.type
-          key = ((ann && ann[:key]) || ivar).id.stringify
-        %}
+        {% key = ((ann && ann[:key]) || ivar).id.stringify %}
         when {{key}}
           raise Exception.new "duplicated key: #{key}" if @found[{{index}}]
           @found[{{index}}] = true
-          variable = Variable({{type}}).new(
+          variable = Variable.new(
+            type: {{ivar.type}},
+            annotations: {{ann && ann.named_args}},
             nilable: {{ivar.type.nilable?}},
-            has_default: {{ivar.has_default_value?}},
-            index: {{index}}
+            has_default: {{ivar.has_default_value?}}
           )
-          pointerof(@object_instance.@{{ivar}}).value = yield(variable).as {{type}}
+          pointerof(@object_instance.@{{ivar}}).value = yield(variable).as {{ivar.type}}
         {% end %}
         {% index = index + 1 %}
       {% end %}
