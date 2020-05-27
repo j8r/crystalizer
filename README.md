@@ -1,6 +1,5 @@
 # Crystalizer
 
-[![Build Status](https://cloud.drone.io/api/badges/j8r/crystalizer/status.svg)](https://cloud.drone.io/j8r/crystalizer)
 [![ISC](https://img.shields.io/badge/License-ISC-blue.svg?style=flat-square)](https://en.wikipedia.org/wiki/ISC_license)
 
 [De]serialize any Crystal object - out of the box. Supports JSON, YAML.
@@ -22,6 +21,10 @@ dependencies:
   clicr:
     github: j8r/crystalizer
 ```
+
+## Documentation
+
+https://j8r.github.io/crystalizer
 
 ## Usage
 
