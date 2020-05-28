@@ -56,4 +56,13 @@ describe Crystalizer::YAML do
 
     assert_yaml_serialization obj, yaml_obj
   end
+
+  describe Hash do
+    assert_yaml_serialization({"a" => 123}, <<-E
+    ---
+    a: 123
+
+    E
+    )
+  end
 end

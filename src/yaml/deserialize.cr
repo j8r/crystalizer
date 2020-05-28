@@ -53,4 +53,23 @@ module Crystalizer::YAML
   )
     type.new ctx, node
   end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Hash.class)
+    ctx.read_alias(node, type) do |obj|
+      return obj
+    end
+
+    hash = type.new
+    key_class, value_class = typeof(hash.first)
+
+    ctx.record_anchor(node, hash)
+    unless node.is_a?(::YAML::Nodes::Mapping)
+      node.raise "Expected mapping, not #{node.class}"
+    end
+    ::YAML::Schema::Core.each(node) do |key, value|
+      hash[deserialize(ctx, key, key_class)] = deserialize(ctx, value, value_class)
+    end
+
+    hash
+  end
 end

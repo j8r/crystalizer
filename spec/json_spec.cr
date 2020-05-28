@@ -45,4 +45,8 @@ describe Crystalizer::JSON do
 
     assert_json_serialization obj, json_obj
   end
+
+  describe Hash do
+    assert_json_serialization({"a" => 123}, %({"a":123}))
+  end
 end

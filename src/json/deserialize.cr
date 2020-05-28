@@ -24,8 +24,23 @@ module Crystalizer::JSON
 
   def deserialize(
     pull : ::JSON::PullParser,
-    to type : (::JSON::Serializable | Array | Bool | Enum | Float | Hash | Int | NamedTuple | Nil | Set | String | Symbol | Time | Tuple).class
+    to type : (::JSON::Serializable | Array | Bool | Enum | Float | Int | NamedTuple | Nil | Set | String | Symbol | Time | Tuple).class
   )
     type.new pull
+  end
+
+  def deserialize(pull : ::JSON::PullParser, to type : Hash.class)
+    hash = type.new
+    key_class, value_class = typeof(hash.first)
+
+    pull.read_object do |key, key_location|
+      parsed_key = key_class.from_json_object_key?(key)
+      unless parsed_key
+        raise ::JSON::ParseException.new("Can't convert #{key.inspect} into #{key_class}", *key_location)
+      end
+      hash[parsed_key] = deserialize pull, value_class
+    end
+
+    hash
   end
 end

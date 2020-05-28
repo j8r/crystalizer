@@ -24,8 +24,17 @@ module Crystalizer::YAML
 
   def serialize(
     builder : ::YAML::Nodes::Builder,
-    object : ::YAML::Serializable | Array | Bool | Enum | Float | Hash | Int | NamedTuple | Nil | Set | String | Symbol | Time | Tuple
+    object : ::YAML::Serializable | Array | Bool | Enum | Float | Int | NamedTuple | Nil | Set | String | Symbol | Time | Tuple
   )
     object.to_yaml builder
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, hash : Hash)
+    builder.mapping(reference: hash) do
+      hash.each do |key, value|
+        serialize builder, key
+        serialize builder, value
+      end
+    end
   end
 end

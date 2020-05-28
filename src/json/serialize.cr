@@ -23,8 +23,18 @@ module Crystalizer::JSON
 
   def serialize(
     builder : ::JSON::Builder,
-    object : ::JSON::Serializable | Array | Bool | Enum | Float | Hash | Int | NamedTuple | Nil | Set | String | Symbol | Time | Tuple
+    object : ::JSON::Serializable | Array | Bool | Enum | Float | Int | NamedTuple | Nil | Set | String | Symbol | Time | Tuple
   )
     object.to_json builder
+  end
+
+  def serialize(builder : ::JSON::Builder, hash : Hash)
+    builder.object do
+      hash.each do |key, value|
+        builder.field key.to_json_object_key do
+          serialize builder, value
+        end
+      end
+    end
   end
 end
