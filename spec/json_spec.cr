@@ -38,4 +38,8 @@ describe Crystalizer::JSON do
   describe Tuple do
     assert_json_serialization({"a", 2}, %(["a",2]))
   end
+
+  describe Enum do
+    assert_json_serialization(Enu::A, "0")
+  end
 end

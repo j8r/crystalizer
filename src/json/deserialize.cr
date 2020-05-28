@@ -6,7 +6,7 @@ module Crystalizer::JSON
 
   def deserialize(
     pull : ::JSON::PullParser,
-    to type : (::JSON::Serializable | Bool | Enum | Float | Int | NamedTuple | Nil | String | Symbol | Time).class
+    to type : (::JSON::Serializable | Bool | Float | Int | NamedTuple | Nil | String | Symbol | Time).class
   )
     type.new pull
   end
@@ -50,6 +50,17 @@ module Crystalizer::JSON
       pull.read_end_array
       value
    {% end %}
+  end
+
+  def deserialize(pull : ::JSON::PullParser, to type : Enum.class)
+    case pull.kind
+    when .int?
+      type.from_value(pull.read_int)
+    when .string?
+      type.parse(pull.read_string)
+    else
+      raise Exception.new "Expecting int or string in JSON for #{type}, not #{pull.kind}"
+    end
   end
 
   def deserialize(pull : ::JSON::PullParser, to type : O.class) : O forall O

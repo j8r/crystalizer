@@ -19,3 +19,8 @@ class Obj
     @ary == other.ary
   end
 end
+
+enum Enu
+  A
+  B
+end

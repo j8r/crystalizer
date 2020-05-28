@@ -23,7 +23,7 @@ module Crystalizer::JSON
 
   def serialize(
     builder : ::JSON::Builder,
-    object : ::JSON::Serializable | Bool | Enum | Float | Int | NamedTuple | Nil | String | Symbol | Time
+    object : ::JSON::Serializable | Bool | Float | Int | NamedTuple | Nil | String | Symbol | Time
   )
     object.to_json builder
   end
@@ -44,5 +44,9 @@ module Crystalizer::JSON
         serialize builder, value
       end
     end
+  end
+
+  def serialize(builder : ::JSON::Builder, object : Enum)
+    builder.number object.value
   end
 end

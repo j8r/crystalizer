@@ -45,4 +45,8 @@ module Crystalizer::YAML
       end
     end
   end
+
+  def serialize(builder : ::YAML::Nodes::Builder, object : Enum)
+    builder.scalar object.value
+  end
 end

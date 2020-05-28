@@ -66,4 +66,8 @@ describe Crystalizer::YAML do
     E
     )
   end
+
+  describe Enum do
+    assert_yaml_serialization(Enu::A, "--- 0\n")
+  end
 end

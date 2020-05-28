@@ -17,7 +17,7 @@ module Crystalizer::YAML
   def deserialize(
     ctx : ::YAML::ParseContext,
     node : ::YAML::Nodes::Node,
-    to type : (::YAML::Serializable | Bool | Enum | Float | Hash | Int | NamedTuple | Nil | String | Symbol | Time).class
+    to type : (::YAML::Serializable | Bool | Float | Hash | Int | NamedTuple | Nil | String | Symbol | Time).class
   )
     type.new ctx, node
   end
@@ -82,6 +82,19 @@ module Crystalizer::YAML
         {% end %}
       )
    {% end %}
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Enum.class)
+    if !node.is_a?(::YAML::Nodes::Scalar)
+      node.raise "Expected scalar, not #{node.class}"
+    end
+
+    string = node.value
+    if value = string.to_i64?
+      type.from_value(value)
+    else
+      type.parse(string)
+    end
   end
 
   def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : O.class) : O forall O
