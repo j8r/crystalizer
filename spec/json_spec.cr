@@ -49,4 +49,12 @@ describe Crystalizer::JSON do
   describe Hash do
     assert_json_serialization({"a" => 123}, %({"a":123}))
   end
+
+  describe Array do
+    assert_json_serialization(["a", 2], %(["a",2]))
+  end
+
+  describe Tuple do
+    assert_json_serialization({"a", 2}, %(["a",2]))
+  end
 end

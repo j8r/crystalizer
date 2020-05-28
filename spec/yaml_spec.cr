@@ -65,4 +65,24 @@ describe Crystalizer::YAML do
     E
     )
   end
+
+  describe Array do
+    assert_yaml_serialization(["a", 2], <<-E
+    ---
+    - a
+    - 2
+
+    E
+    )
+  end
+
+  describe Tuple do
+    assert_yaml_serialization({"a", 2}, <<-E
+    ---
+    - a
+    - 2
+
+    E
+    )
+  end
 end
