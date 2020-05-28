@@ -1,25 +1,6 @@
 require "spec"
 require "../src/json"
-
-struct JSONPoint
-  getter x : Int32
-  @[Crystalizer::Field(key: "Y")]
-  getter y : String
-
-  def initialize(@x, @y)
-  end
-end
-
-class JSONObj
-  getter ary
-
-  def initialize(@ary : Array(String))
-  end
-
-  def ==(other : self)
-    @ary == other.ary
-  end
-end
+require "./format_helper"
 
 def assert_json_serialization(object : T, string : String) forall T
   it "serializes" do
@@ -33,14 +14,14 @@ end
 
 describe Crystalizer::JSON do
   describe "struct" do
-    point = JSONPoint.new 1, "a"
+    point = Point.new 1, "a"
     json_point = %({"x":1,"Y":"a"})
 
     assert_json_serialization point, json_point
   end
 
   describe "class" do
-    obj = JSONObj.new ["a", "b"]
+    obj = Obj.new ["a", "b"]
     json_obj = %({"ary":["a","b"]})
 
     assert_json_serialization obj, json_obj
