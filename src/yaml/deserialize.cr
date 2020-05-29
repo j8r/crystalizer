@@ -17,7 +17,7 @@ module Crystalizer::YAML
   def deserialize(
     ctx : ::YAML::ParseContext,
     node : ::YAML::Nodes::Node,
-    to type : (::YAML::Serializable | Bool | Float | Hash | Int | NamedTuple | Nil | String | Symbol | Time).class
+    to type : (::YAML::Serializable | Bool | Float | Hash | Int | Nil | String | Symbol | Time).class
   )
     type.new ctx, node
   end
@@ -73,7 +73,7 @@ module Crystalizer::YAML
     check_tuple_size node, type
 
     i = -1
-    tuple = Crystalizer.create_tuple type do |value_type|
+    Crystalizer.create_tuple type do |value_type|
       i += 1
       deserialize ctx, node.nodes[i], value_type
     end
@@ -92,8 +92,24 @@ module Crystalizer::YAML
     end
   end
 
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : NamedTuple.class)
+    unless node.is_a?(::YAML::Nodes::Mapping)
+      node.raise "Expected mapping, not #{node.class}"
+    end
+
+    deserializer = Deserializer::NamedTuple.new type
+    ::YAML::Schema::Core.each(node) do |key_node, value_node|
+      key = String.new(ctx, key_node)
+      deserializer.set_value key do |value_type|
+        deserialize ctx, value_node, value_type
+      end
+    end
+
+    deserializer.named_tuple
+  end
+
   def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : O.class) : O forall O
-    deserializer = Crystalizer::Deserializer.new type
+    deserializer = Deserializer::Object.new type
     case node
     when ::YAML::Nodes::Mapping
       ::YAML::Schema::Core.each(node) do |key_node, value_node|

@@ -49,4 +49,13 @@ module Crystalizer::YAML
   def serialize(builder : ::YAML::Nodes::Builder, object : Enum)
     builder.scalar object.value
   end
+
+  def serialize(builder : ::YAML::Nodes::Builder, named_tuple : NamedTuple)
+    builder.mapping do
+      named_tuple.each do |key, value|
+        serialize builder, key
+        serialize builder, value
+      end
+    end
+  end
 end

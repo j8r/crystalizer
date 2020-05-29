@@ -42,4 +42,8 @@ describe Crystalizer::JSON do
   describe Enum do
     assert_json_serialization(Enu::A, "0")
   end
+
+  describe NamedTuple do
+    assert_json_serialization({a: "A", b: 1}, %({"a":"A","b":1}))
+  end
 end

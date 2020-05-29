@@ -70,4 +70,14 @@ describe Crystalizer::YAML do
   describe Enum do
     assert_yaml_serialization(Enu::A, "--- 0\n")
   end
+
+  describe NamedTuple do
+    assert_yaml_serialization({a: "A", b: 1}, <<-E
+    ---
+    a: A
+    b: 1
+
+    E
+    )
+  end
 end

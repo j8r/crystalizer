@@ -6,7 +6,7 @@ module Crystalizer::JSON
 
   def deserialize(
     pull : ::JSON::PullParser,
-    to type : (::JSON::Serializable | Bool | Float | Int | NamedTuple | Nil | String | Symbol | Time).class
+    to type : (::JSON::Serializable | Bool | Float | Int | Nil | String | Symbol | Time).class
   )
     type.new pull
   end
@@ -55,8 +55,20 @@ module Crystalizer::JSON
     end
   end
 
+  def deserialize(pull : ::JSON::PullParser, to type : NamedTuple.class)
+    deserializer = Deserializer::NamedTuple.new type
+
+    pull.read_object do |key|
+      deserializer.set_value key do |value_type|
+        deserialize pull, value_type
+      end
+    end
+
+    deserializer.named_tuple
+  end
+
   def deserialize(pull : ::JSON::PullParser, to type : O.class) : O forall O
-    deserializer = Crystalizer::Deserializer.new type
+    deserializer = Deserializer::Object.new type
     pull.read_begin_object
     while !pull.kind.end_object?
       key = pull.read_object_key
