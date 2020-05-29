@@ -60,28 +60,23 @@ module Crystalizer::YAML
     array
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Tuple.class)
-    deserialize_tuple ctx, node, type
-  end
-
-  private def deserialize_tuple(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, tuple : T.class) : T forall T
-    if !node.is_a?(::YAML::Nodes::Sequence)
-      node.raise "Expected sequence, not #{node.class}"
-    end
-
+  private def check_tuple_size(node : ::YAML::Nodes::Node, type : T.class) forall T
     if node.nodes.size != {{T.size}}
       node.raise "Expected #{{{T.size}}} elements, not #{node.nodes.size}"
     end
+  end
 
-    {% begin %}
-      {% i = 0 %}
-      Tuple.new(
-        {% for type in T.type_vars %}
-          deserialize(ctx, node.nodes[{{i}}], {{type}}),
-          {% i = i + 1 %}
-        {% end %}
-      )
-   {% end %}
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Tuple.class)
+    if !node.is_a?(::YAML::Nodes::Sequence)
+      node.raise "Expected sequence, not #{node.class}"
+    end
+    check_tuple_size node, type
+
+    i = -1
+    tuple = Crystalizer.create_tuple type do |value_type|
+      i += 1
+      deserialize ctx, node.nodes[i], value_type
+    end
   end
 
   def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Enum.class)

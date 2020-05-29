@@ -36,20 +36,12 @@ module Crystalizer::JSON
   end
 
   def deserialize(pull : ::JSON::PullParser, to type : Tuple.class)
-    deserialize_tuple pull, type
-  end
-
-  private def deserialize_tuple(pull : ::JSON::PullParser, tuple : T.class) : T forall T
-    {% begin %}
-      pull.read_begin_array
-      value = Tuple.new(
-        {% for type in T.type_vars %}
-          deserialize(pull, {{type}}),
-        {% end %}
-      )
-      pull.read_end_array
-      value
-   {% end %}
+    pull.read_begin_array
+    tuple = Crystalizer.create_tuple type do |value_type|
+      deserialize pull, value_type
+    end
+    pull.read_end_array
+    tuple
   end
 
   def deserialize(pull : ::JSON::PullParser, to type : Enum.class)
