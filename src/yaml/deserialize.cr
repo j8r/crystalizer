@@ -1,5 +1,5 @@
 module Crystalizer::YAML
-  def deserialize(string_or_io : String | IO, to type : O.class) : O forall O
+  def deserialize(string_or_io : String | IO, to type : T.class) : T forall T
     document = ::YAML::Nodes.parse(string_or_io)
 
     # If the document is empty we simulate an empty scalar with
@@ -14,10 +14,28 @@ module Crystalizer::YAML
     deserialize context, node, to: type
   end
 
+  private def parse_scalar(ctx, node, type : T.class) forall T
+    ctx.read_alias(node, T) do |obj|
+      return obj
+    end
+
+    if node.is_a?(::YAML::Nodes::Scalar)
+      value = ::YAML::Schema::Core.parse_scalar(node)
+      if value.is_a?(T)
+        ctx.record_anchor(node, value)
+        value
+      else
+        node.raise "Expected #{T}, not #{node.value}"
+      end
+    else
+      node.raise "Expected #{T}, not #{node.class.name}"
+    end
+  end
+
   def deserialize(
     ctx : ::YAML::ParseContext,
     node : ::YAML::Nodes::Node,
-    to type : (::YAML::Serializable | Bool | Float | Hash | Int | Nil | String | Symbol | Time).class
+    to type : (::YAML::Serializable | Time).class
   )
     type.new ctx, node
   end
@@ -79,19 +97,6 @@ module Crystalizer::YAML
     end
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Enum.class)
-    if !node.is_a?(::YAML::Nodes::Scalar)
-      node.raise "Expected scalar, not #{node.class}"
-    end
-
-    string = node.value
-    if value = string.to_i64?
-      type.from_value(value)
-    else
-      type.parse(string)
-    end
-  end
-
   def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : NamedTuple.class)
     unless node.is_a?(::YAML::Nodes::Mapping)
       node.raise "Expected mapping, not #{node.class}"
@@ -108,35 +113,122 @@ module Crystalizer::YAML
     deserializer.named_tuple
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : O.class) : O forall O
-    deserializer = Deserializer::Object.new type
-    case node
-    when ::YAML::Nodes::Mapping
-      ::YAML::Schema::Core.each(node) do |key_node, value_node|
-        unless key_node.is_a?(::YAML::Nodes::Scalar)
-          key_node.raise "Expected scalar as key for mapping"
-        end
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Enum.class)
+    if !node.is_a?(::YAML::Nodes::Scalar)
+      node.raise "Expected scalar, not #{node.class}"
+    end
 
-        key = key_node.value
-        deserializer.set_ivar key do |variable|
-          if variable.nilable || variable.has_default
-            ::YAML::Schema::Core.parse_null_or(value_node) do
+    string = node.value
+    if value = string.to_i64?
+      type.from_value(value)
+    else
+      type.parse(string)
+    end
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class)
+    parse_scalar(ctx, node, type)
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to float : Float.class)
+    float.new! parse_scalar(ctx, node, Float64)
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to int : Int.class)
+    int.new! parse_scalar(ctx, node, Int64)
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Path.class)
+    Path.new deserialize(ctx, node, String)
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : String.class)
+    ctx.read_alias(node, String) do |obj|
+      return obj
+    end
+
+    if node.is_a?(::YAML::Nodes::Scalar)
+      value = node.value
+      ctx.record_anchor(node, value)
+      value
+    else
+      node.raise "Expected String, not #{node.class.name}"
+    end
+  end
+
+  private def deserialize_union(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, type : T.class) forall T
+    if node.is_a?(::YAML::Nodes::Alias)
+      {% for type in T.union_types %}
+        {% if type < ::Reference %}
+          ctx.read_alias?(node, {{type}}) do |obj|
+            return obj
+          end
+        {% end %}
+      {% end %}
+
+      node.raise("Error deserializing alias")
+    end
+
+    {% begin %}
+      # String must come last because anything can be parsed into a String.
+      # So, we give a chance first to types in the union to be parsed.
+      {% string_type = T.union_types.find { |t_type| t_type == ::String } %}
+
+      {% for type in T.union_types %}
+        {% unless type == string_type %}
+          begin
+            return deserialize ctx, node, {{type}}
+          rescue ::YAML::ParseException
+            # Ignore
+          end
+        {% end %}
+      {% end %}
+
+      {% if string_type %}
+        begin
+          return deserialize ctx, node, {{string_type}}
+        rescue ::YAML::ParseException
+          # Ignore
+        end
+      {% end %}
+    {% end %}
+
+    node.raise "Couldn't parse #{type}"
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : T.class) : T forall T
+    {% if T.union_types.size > 1 %}
+      deserialize_union(ctx, node, type)
+    {% else %}
+      deserializer = Deserializer::Object.new type
+      case node
+      when ::YAML::Nodes::Mapping
+        ::YAML::Schema::Core.each(node) do |key_node, value_node|
+          unless key_node.is_a?(::YAML::Nodes::Scalar)
+            key_node.raise "Expected scalar as key for mapping"
+          end
+
+          key = key_node.value
+          deserializer.set_ivar key do |variable|
+            if variable.nilable || variable.has_default
+              ::YAML::Schema::Core.parse_null_or(value_node) do
+                deserialize ctx, value_node, variable.type
+              end
+            else
               deserialize ctx, value_node, variable.type
             end
-          else
-            deserialize ctx, value_node, variable.type
           end
         end
-      end
-    when ::YAML::Nodes::Scalar
-      if node.value.empty? && node.style.plain? && !node.tag
-        # We consider an empty scalar as an empty mapping
+      when ::YAML::Nodes::Scalar
+        if node.value.empty? && node.style.plain? && !node.tag
+          # We consider an empty scalar as an empty mapping
+        else
+          node.raise "Expected mapping, not #{node.class}"
+        end
       else
         node.raise "Expected mapping, not #{node.class}"
       end
-    else
-      node.raise "Expected mapping, not #{node.class}"
-    end
-    deserializer.object_instance
+      deserializer.object_instance
+    {% end %}
   end
 end

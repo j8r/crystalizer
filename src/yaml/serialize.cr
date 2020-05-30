@@ -24,7 +24,7 @@ module Crystalizer::YAML
 
   def serialize(
     builder : ::YAML::Nodes::Builder,
-    object : ::YAML::Serializable | Bool | Enum | Float | Int | NamedTuple | Nil | String | Symbol | Time
+    object : ::YAML::Serializable | Time
   )
     object.to_yaml builder
   end
@@ -46,10 +46,6 @@ module Crystalizer::YAML
     end
   end
 
-  def serialize(builder : ::YAML::Nodes::Builder, object : Enum)
-    builder.scalar object.value
-  end
-
   def serialize(builder : ::YAML::Nodes::Builder, named_tuple : NamedTuple)
     builder.mapping do
       named_tuple.each do |key, value|
@@ -57,5 +53,21 @@ module Crystalizer::YAML
         serialize builder, value
       end
     end
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, bool : Bool)
+    builder.scalar bool
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, object : Enum)
+    builder.scalar object.value
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, null : Nil)
+    builder.scalar ""
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, object : Number | Path | String | Symbol)
+    builder.scalar object.to_s
   end
 end

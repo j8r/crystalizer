@@ -80,4 +80,32 @@ describe Crystalizer::YAML do
     E
     )
   end
+
+  describe Bool do
+    assert_yaml_serialization(true, "--- true\n")
+  end
+
+  describe Float do
+    assert_yaml_serialization(1.5_f32, "--- 1.5\n")
+    assert_yaml_serialization(1.5_f64, "--- 1.5\n")
+  end
+
+  describe Int do
+    assert_yaml_serialization(1, "--- 1\n")
+    assert_yaml_serialization(1_u64, "--- 1\n")
+  end
+
+  describe String do
+    assert_yaml_serialization("a", "--- a\n")
+  end
+
+  describe Symbol do
+    it "serializes" do
+      Crystalizer::YAML.serialize(:a).should eq "--- a\n"
+    end
+  end
+
+  describe Nil do
+    assert_yaml_serialization(nil, "--- \n")
+  end
 end
