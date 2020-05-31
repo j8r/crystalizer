@@ -126,7 +126,7 @@ module Crystalizer::YAML
     end
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class | Time.class)
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class | Time.class | Slice(UInt8).class)
     parse_scalar(ctx, node, type)
   end
 

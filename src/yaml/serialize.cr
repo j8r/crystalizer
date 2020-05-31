@@ -71,6 +71,10 @@ module Crystalizer::YAML
     builder.scalar object.to_s
   end
 
+  def serialize(builder : ::YAML::Nodes::Builder, slice : Slice(UInt8))
+    builder.scalar Base64.encode(slice), tag: "tag:yaml.org,2002:binary"
+  end
+
   def serialize(builder : ::YAML::Nodes::Builder, time : Time)
     builder.scalar Time::Format::YAML_DATE.format(time)
   end
