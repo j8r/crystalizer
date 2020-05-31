@@ -16,7 +16,7 @@ module Crystalizer::JSON
     key_class, value_class = typeof(hash.first)
 
     pull.read_object do |key, key_location|
-      if parsed_key = key_class.from_json_object_key?(key)
+      if parsed_key = deserialize_object_key? key, key_class
         hash[parsed_key] = deserialize pull, value_class
       else
         raise ::JSON::ParseException.new("Can't convert #{key.inspect} into #{key_class}", *key_location)
@@ -106,6 +106,17 @@ module Crystalizer::JSON
 
   def deserialize(pull : ::JSON::PullParser, to type : Time.class)
     Time::Format::ISO_8601_DATE_TIME.parse(pull.read_string)
+  end
+
+  def deserialize_object_key?(number : String, to type : Number::Primitive.class)
+    number.new number
+    # Waiting to have .new?
+  rescue
+    nil
+  end
+
+  def deserialize_object_key?(string : String, to type : String.class)
+    string
   end
 
   private def deserialize_union(pull : ::JSON::PullParser, type : T.class) forall T
