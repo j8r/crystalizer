@@ -2,12 +2,12 @@ require "spec"
 require "../src/json"
 require "./format_helper"
 
-def assert_json_serialization(object : T, string : String) forall T
-  it "serializes" do
+private def assert_json_serialization(object : T, string : String, line = __LINE__) forall T
+  it "serializes", line: line do
     Crystalizer::JSON.serialize(object, indent: "").should eq string
   end
 
-  it "deserializes" do
+  it "deserializes", line: line do
     Crystalizer::JSON.deserialize(string, to: T).should eq object
   end
 end
@@ -73,5 +73,9 @@ describe Crystalizer::JSON do
 
   describe Nil do
     assert_json_serialization(nil, "null")
+  end
+
+  describe Time do
+    assert_json_serialization Time.utc(2020, 1, 2, 3), %("2020-01-02T03:00:00Z")
   end
 end

@@ -35,7 +35,7 @@ module Crystalizer::YAML
   def deserialize(
     ctx : ::YAML::ParseContext,
     node : ::YAML::Nodes::Node,
-    to type : (::YAML::Serializable | Time).class
+    to type : ::YAML::Serializable.class
   )
     type.new ctx, node
   end
@@ -126,7 +126,7 @@ module Crystalizer::YAML
     end
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class)
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class | Time.class)
     parse_scalar(ctx, node, type)
   end
 

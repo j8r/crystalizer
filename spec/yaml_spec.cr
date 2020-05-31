@@ -2,12 +2,12 @@ require "spec"
 require "../src/yaml"
 require "./format_helper"
 
-def assert_yaml_serialization(object : T, string : String) forall T
-  it "serializes" do
+private def assert_yaml_serialization(object : T, string : String, line = __LINE__) forall T
+  it "serializes", line: line do
     Crystalizer::YAML.serialize(object).should eq string
   end
 
-  it "deserializes" do
+  it "deserializes", line: line do
     Crystalizer::YAML.deserialize(string, to: T).should eq object
   end
 end
@@ -107,5 +107,9 @@ describe Crystalizer::YAML do
 
   describe Nil do
     assert_yaml_serialization(nil, "--- \n")
+  end
+
+  describe Time do
+    assert_yaml_serialization Time.utc(2020, 1, 2, 3), "--- 2020-01-02 03:00:00\n"
   end
 end

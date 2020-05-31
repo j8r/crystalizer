@@ -24,7 +24,7 @@ module Crystalizer::YAML
 
   def serialize(
     builder : ::YAML::Nodes::Builder,
-    object : ::YAML::Serializable | Time
+    object : ::YAML::Serializable
   )
     object.to_yaml builder
   end
@@ -69,5 +69,9 @@ module Crystalizer::YAML
 
   def serialize(builder : ::YAML::Nodes::Builder, object : Number | Path | String | Symbol)
     builder.scalar object.to_s
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, time : Time)
+    builder.scalar Time::Format::YAML_DATE.format(time)
   end
 end

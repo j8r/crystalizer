@@ -6,7 +6,7 @@ module Crystalizer::JSON
 
   def deserialize(
     pull : ::JSON::PullParser,
-    to type : (::JSON::Serializable | Time).class
+    to type : ::JSON::Serializable.class
   )
     type.new pull
   end
@@ -102,6 +102,10 @@ module Crystalizer::JSON
     rescue ex : OverflowError
       raise ::JSON::ParseException.new("Can't read #{type}", *location, ex)
     end
+  end
+
+  def deserialize(pull : ::JSON::PullParser, to type : Time.class)
+    Time::Format::ISO_8601_DATE_TIME.parse(pull.read_string)
   end
 
   private def deserialize_union(pull : ::JSON::PullParser, type : T.class) forall T

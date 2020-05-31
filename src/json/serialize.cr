@@ -23,7 +23,7 @@ module Crystalizer::JSON
 
   def serialize(
     builder : ::JSON::Builder,
-    object : ::JSON::Serializable | Bool | Nil | Time
+    object : ::JSON::Serializable
   )
     object.to_json builder
   end
@@ -82,5 +82,9 @@ module Crystalizer::JSON
 
   def serialize(builder : ::JSON::Builder, object : Path | String | Symbol)
     builder.string object.to_s
+  end
+
+  def serialize(builder : ::JSON::Builder, time : Time)
+    builder.string(Time::Format::RFC_3339.format(time, fraction_digits: 0))
   end
 end
