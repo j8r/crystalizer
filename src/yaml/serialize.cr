@@ -22,10 +22,11 @@ module Crystalizer::YAML
     end
   end
 
-  def serialize(
-    builder : ::YAML::Nodes::Builder,
-    object : ::YAML::Serializable
-  )
+  def serialize(builder : ::YAML::Nodes::Builder, any : Crystalizer::Any)
+    serialize builder, any.raw
+  end
+
+  def serialize(builder : ::YAML::Nodes::Builder, object : ::YAML::Serializable)
     object.to_yaml builder
   end
 

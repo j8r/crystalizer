@@ -32,11 +32,12 @@ module Crystalizer::YAML
     end
   end
 
-  def deserialize(
-    ctx : ::YAML::ParseContext,
-    node : ::YAML::Nodes::Node,
-    to type : ::YAML::Serializable.class
-  )
+  # Deserializes a YAML document according to the core schema.
+  def parse(string_or_io : String | IO) : Any
+    deserialize string_or_io, Any
+  end
+
+  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : ::YAML::Serializable.class | Any.class)
     type.new ctx, node
   end
 

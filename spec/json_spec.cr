@@ -27,6 +27,12 @@ describe Crystalizer::JSON do
     assert_json_serialization obj, json_obj
   end
 
+  describe Crystalizer::JSON::Any do
+    json = %({"ary":["a",1]})
+    any = Crystalizer::JSON.parse json
+    assert_json_serialization any, json
+  end
+
   describe Hash do
     assert_json_serialization({"a" => 123}, %({"a":123}))
   end

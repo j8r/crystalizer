@@ -28,6 +28,8 @@ https://j8r.github.io/crystalizer
 
 ## Usage
 
+### Basic
+
 ```crystal
 require "crystalizer/json"
 require "crystalizer/yaml"
@@ -66,7 +68,58 @@ Crystalizer::JSON
 Point(@x=1, @y="a")
 ```
 
-Note: annotations are similar to the stdlib's `Serializable`, but all features are not yet fully implemented.
+### Any
+
+Parsing any type, and converting to JSON/YAML.
+
+```cr
+require "crystalizer/json"
+require "crystalizer/yaml"
+
+yaml_string = <<-E
+one: 1
+two: 2
+sub:
+  ary:
+  - one
+  - 2
+E
+
+yaml_any = Crystalizer::YAML.parse yaml_string
+puts yaml_any
+
+json_string = Crystalizer::JSON.serialize yaml_any
+puts json_string
+
+json_any = Crystalizer::JSON.parse json_string
+puts Crystalizer::YAML.serialize json_any
+```
+
+Result:
+```yaml
+{"one" => 1, "two" => 2, "sub" => {"ary" => ["one", 2]}}
+{
+  "one": 1,
+  "two": 2,
+  "sub": {
+    "ary": [
+      "one",
+      2
+    ]
+  }
+}
+---
+one: 1
+two: 2
+sub:
+  ary:
+  - one
+  - 2
+```
+
+### Note
+
+Annotations are similar to the stdlib's `Serializable`, but all features are not yet fully implemented.
 
 ## License
 

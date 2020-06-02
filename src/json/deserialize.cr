@@ -4,10 +4,12 @@ module Crystalizer::JSON
     deserialize pull, to: type
   end
 
-  def deserialize(
-    pull : ::JSON::PullParser,
-    to type : ::JSON::Serializable.class
-  )
+  # Parses a JSON document as a JSON::Any.
+  def parse(string_or_io : String | IO) : Any
+    deserialize string_or_io, Any
+  end
+
+  def deserialize(pull : ::JSON::PullParser, to type : ::JSON::Serializable.class | Any.class)
     type.new pull
   end
 

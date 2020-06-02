@@ -1,5 +1,6 @@
 require "./crystalizer"
 require "./deserializer"
+require "./any"
 require "json"
 require "./json/*"
 

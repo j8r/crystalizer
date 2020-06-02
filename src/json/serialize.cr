@@ -21,10 +21,15 @@ module Crystalizer::JSON
     end
   end
 
-  def serialize(
-    builder : ::JSON::Builder,
-    object : ::JSON::Serializable
-  )
+  def serialize(builder : ::JSON::Builder, any : Crystalizer::Any)
+    serialize builder, any.raw
+  end
+
+  def serialize_object_key(any : Crystalizer::Any)
+    serialize_object_key any.to Path | String | Symbol | Number::Primitive
+  end
+
+  def serialize(builder : ::JSON::Builder, object : ::JSON::Serializable)
     object.to_json builder
   end
 

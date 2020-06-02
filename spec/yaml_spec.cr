@@ -38,6 +38,18 @@ describe Crystalizer::YAML do
     assert_yaml_serialization obj, yaml_obj
   end
 
+  describe Crystalizer::YAML::Any do
+    yaml = <<-E
+    ---
+    ary:
+    - a
+    - 1
+
+    E
+    any = Crystalizer::YAML.parse yaml
+    assert_yaml_serialization any, yaml
+  end
+
   describe Hash do
     assert_yaml_serialization({"a" => 123}, <<-E
     ---
