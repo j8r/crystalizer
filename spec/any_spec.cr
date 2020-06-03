@@ -49,4 +49,15 @@ describe Crystalizer::Any do
     any["unknown"]?.should be_nil
     any["sub"][1]?.should eq TestAny.new "two"
   end
+
+  it "#dig" do
+    any.dig("key").should eq TestAny.new "value"
+    any.dig("sub", 1).should eq TestAny.new "two"
+  end
+
+  it "#dig?" do
+    any.dig?("key").should eq TestAny.new "value"
+    any.dig?("unknown").should be_nil
+    any.dig?("sub", 1).should eq TestAny.new "two"
+  end
 end

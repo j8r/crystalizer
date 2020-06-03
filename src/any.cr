@@ -66,6 +66,27 @@ module Crystalizer::Any
     end
   end
 
+  # Traverses the depth of a structure and returns the value.
+  # Returns `nil` if not found.
+  def dig?(key, *subkeys)
+    self[key]?.try &.dig?(*subkeys)
+  end
+
+  # :nodoc:
+  def dig?(key_or_index)
+    self[key_or_index]? if cast_to_hash_or_indexable?
+  end
+
+  # Traverses the depth of a structure and returns the value, otherwise raises.
+  def dig(key_or_index, *subkeys)
+    self[key_or_index].dig(*subkeys)
+  end
+
+  # :nodoc:
+  def dig(key_or_index)
+    self[key_or_index]
+  end
+
   # :nodoc:
   def inspect(io : IO) : Nil
     @raw.inspect(io)
