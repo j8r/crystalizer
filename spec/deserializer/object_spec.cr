@@ -24,7 +24,7 @@ describe Crystalizer::Deserializer::Object do
 
   it "raises on setting a unknown key" do
     expect_raises Crystalizer::Deserializer::Object::Exception,
-      message: "Unknown key in Strukt: unknown_var" do
+      message: "Unknown field in Strukt matching the given string: unknown_var" do
       obj = Crystalizer::Deserializer::Object.new Strukt
       obj.set_ivar "unknown_var" { 0 }
     end

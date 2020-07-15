@@ -46,7 +46,7 @@ struct Crystalizer::Deserializer::Object(T, N)
       {% unless ann && ann[:ignore] %}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
         when {{key}}
-          raise Exception.new "duplicated key: #{key}" if @found[{{i}}]
+          raise Exception.new "Duplicated field for {{T}}: #{key}" if @found[{{i}}]
           @found[{{i}}] = true
           variable = Variable.new(
             type: {{ivar.type}},
@@ -58,7 +58,7 @@ struct Crystalizer::Deserializer::Object(T, N)
         {% end %}
         {% i = i + 1 %}
       {% end %}
-      else raise Exception.new "Unknown key in {{T}}: #{key}"
+      else raise Exception.new "Unknown field in {{T}} matching the given string: #{key}"
       end
     {% end %}
   end
