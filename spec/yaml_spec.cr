@@ -122,7 +122,7 @@ describe Crystalizer::YAML do
   end
 
   describe Time do
-    assert_yaml_serialization Time.utc(2020, 1, 2, 3), "--- 2020-01-02 03:00:00\n"
+    assert_yaml_serialization Time.utc(2020, 1, 2, 3), "--- 2020-01-02 03:00:00.000000000"
   end
 
   describe Slice(UInt8) do
