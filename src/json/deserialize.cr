@@ -1,19 +1,19 @@
 module Crystalizer::JSON
-  def deserialize(string_or_io : String | IO, to type : T.class) : T forall T
+  def self.deserialize(string_or_io : String | IO, to type : T.class) : T forall T
     pull = ::JSON::PullParser.new(string_or_io)
     deserialize pull, to: type
   end
 
   # Parses a JSON document as a JSON::Any.
-  def parse(string_or_io : String | IO) : Any
+  def self.parse(string_or_io : String | IO) : Any
     deserialize string_or_io, Any
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : ::JSON::Serializable.class | Any.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : ::JSON::Serializable.class | Any.class)
     type.new pull
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Hash.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Hash.class)
     hash = type.new
     key_class, value_class = typeof(hash.first)
 
@@ -28,7 +28,7 @@ module Crystalizer::JSON
     hash
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Array.class | Deque.class | Set.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Array.class | Deque.class | Set.class)
     array = type.new
     value_class = typeof(array.first)
     pull.read_array do
@@ -37,7 +37,7 @@ module Crystalizer::JSON
     array
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Tuple.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Tuple.class)
     pull.read_begin_array
     tuple = Crystalizer.create_tuple type do |value_type|
       deserialize pull, value_type
@@ -46,7 +46,7 @@ module Crystalizer::JSON
     tuple
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : NamedTuple.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : NamedTuple.class)
     deserializer = Deserializer::NamedTuple.new type
 
     pull.read_object do |key|
@@ -58,7 +58,7 @@ module Crystalizer::JSON
     deserializer.named_tuple
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Enum.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Enum.class)
     case pull.kind
     when .int?
       type.from_value(pull.read_int)
@@ -69,23 +69,23 @@ module Crystalizer::JSON
     end
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Bool.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Bool.class)
     pull.read_bool
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Nil.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Nil.class)
     pull.read_null
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Path.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Path.class)
     Path.new pull.read_string
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : String.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : String.class)
     pull.read_string
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Float.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Float.class)
     type.new case pull.kind
     when .int?
       value = pull.int_value
@@ -96,7 +96,7 @@ module Crystalizer::JSON
     end
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Int.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Int.class)
     location = pull.location
     value = pull.read_int
     begin
@@ -106,22 +106,22 @@ module Crystalizer::JSON
     end
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : Time.class)
+  def self.deserialize(pull : ::JSON::PullParser, to type : Time.class)
     Time::Format::ISO_8601_DATE_TIME.parse(pull.read_string)
   end
 
-  def deserialize_object_key?(number : String, to type : Number::Primitive.class)
+  def self.deserialize_object_key?(number : String, to type : Number::Primitive.class)
     number.new number
     # Waiting to have .new?
   rescue
     nil
   end
 
-  def deserialize_object_key?(string : String, to type : String.class)
+  def self.deserialize_object_key?(string : String, to type : String.class)
     string
   end
 
-  private def deserialize_union(pull : ::JSON::PullParser, type : T.class) forall T
+  private def self.deserialize_union(pull : ::JSON::PullParser, type : T.class) forall T
     location = pull.location
 
     {% begin %}
@@ -177,7 +177,7 @@ module Crystalizer::JSON
     {% end %}
   end
 
-  def deserialize(pull : ::JSON::PullParser, to type : T.class) : T forall T
+  def self.deserialize(pull : ::JSON::PullParser, to type : T.class) : T forall T
     {% if T.union_types.size > 1 %}
       deserialize_union(pull, type)
     {% else %}

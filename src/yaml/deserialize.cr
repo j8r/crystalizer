@@ -1,5 +1,5 @@
 module Crystalizer::YAML
-  def deserialize(string_or_io : String | IO, to type : T.class) : T forall T
+  def self.deserialize(string_or_io : String | IO, to type : T.class) : T forall T
     document = ::YAML::Nodes.parse(string_or_io)
 
     # If the document is empty we simulate an empty scalar with
@@ -14,7 +14,7 @@ module Crystalizer::YAML
     deserialize context, node, to: type
   end
 
-  private def parse_scalar(ctx, node, type : T.class) forall T
+  private def self.parse_scalar(ctx, node, type : T.class) forall T
     ctx.read_alias(node, T) do |obj|
       return obj
     end
@@ -33,15 +33,15 @@ module Crystalizer::YAML
   end
 
   # Deserializes a YAML document according to the core schema.
-  def parse(string_or_io : String | IO) : Any
+  def self.parse(string_or_io : String | IO) : Any
     deserialize string_or_io, Any
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : ::YAML::Serializable.class | Any.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : ::YAML::Serializable.class | Any.class)
     type.new ctx, node
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Hash.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Hash.class)
     ctx.read_alias(node, type) do |obj|
       return obj
     end
@@ -60,7 +60,7 @@ module Crystalizer::YAML
     hash
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Array.class | Deque.class | Set.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Array.class | Deque.class | Set.class)
     ctx.read_alias(node, type) do |obj|
       return obj
     end
@@ -79,13 +79,13 @@ module Crystalizer::YAML
     array
   end
 
-  private def check_tuple_size(node : ::YAML::Nodes::Node, type : T.class) forall T
+  private def self.check_tuple_size(node : ::YAML::Nodes::Node, type : T.class) forall T
     if node.nodes.size != {{T.size}}
       node.raise "Expected #{{{T.size}}} elements, not #{node.nodes.size}"
     end
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Tuple.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Tuple.class)
     if !node.is_a?(::YAML::Nodes::Sequence)
       node.raise "Expected sequence, not #{node.class}"
     end
@@ -98,7 +98,7 @@ module Crystalizer::YAML
     end
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : NamedTuple.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : NamedTuple.class)
     unless node.is_a?(::YAML::Nodes::Mapping)
       node.raise "Expected mapping, not #{node.class}"
     end
@@ -114,7 +114,7 @@ module Crystalizer::YAML
     deserializer.named_tuple
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Enum.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Enum.class)
     if !node.is_a?(::YAML::Nodes::Scalar)
       node.raise "Expected scalar, not #{node.class}"
     end
@@ -127,23 +127,23 @@ module Crystalizer::YAML
     end
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class | Time.class | Slice(UInt8).class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Bool.class | Nil.class | Time.class | Slice(UInt8).class)
     parse_scalar(ctx, node, type)
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to float : Float.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to float : Float.class)
     float.new! parse_scalar(ctx, node, Float64)
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to int : Int.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to int : Int.class)
     int.new! parse_scalar(ctx, node, Int64)
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Path.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : Path.class)
     Path.new deserialize(ctx, node, String)
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : String.class)
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : String.class)
     ctx.read_alias(node, String) do |obj|
       return obj
     end
@@ -157,7 +157,7 @@ module Crystalizer::YAML
     end
   end
 
-  private def deserialize_union(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, type : T.class) forall T
+  private def self.deserialize_union(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, type : T.class) forall T
     if node.is_a?(::YAML::Nodes::Alias)
       {% for type in T.union_types %}
         {% if type < ::Reference %}
@@ -197,7 +197,7 @@ module Crystalizer::YAML
     node.raise "Couldn't parse #{type}"
   end
 
-  def deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : T.class) : T forall T
+  def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : T.class) : T forall T
     {% if T.union_types.size > 1 %}
       deserialize_union(ctx, node, type)
     {% else %}

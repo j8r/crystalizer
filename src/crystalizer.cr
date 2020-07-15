@@ -2,10 +2,8 @@ require "./field"
 require "./variable"
 
 module Crystalizer
-  extend self
-
   # Yields each instance variable with its key, value and `Variable` metadata.
-  def each_ivar(object : O, &) forall O
+  def self.each_ivar(object : O, &) forall O
     {% for ivar in O.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
       {% unless ann && ann[:ignore] %}
@@ -21,13 +19,13 @@ module Crystalizer
   end
 
   # Creates a new `Tuple` instance from a Tuple class.
-  def create_tuple(tuple : Tuple.class, &)
+  def self.create_tuple(tuple : Tuple.class, &)
     internal_create_tuple tuple do |type|
       yield type
     end
   end
 
-  private def internal_create_tuple(tuple : T.class, &) : T forall T
+  private def self.internal_create_tuple(tuple : T.class, &) : T forall T
     {% begin %}
       Tuple.new(
         {% for type in T.type_vars %}

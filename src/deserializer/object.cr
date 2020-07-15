@@ -31,7 +31,7 @@ struct Crystalizer::Deserializer::Object(T, N)
           nilable: {{ivar.type.nilable?}},
           has_default: {{ivar.has_default_value?}}
         )
-        object.@{{ivar}} = yield(variable).as {{ivar.type}}
+        pointerof(object.@{{ivar}}).value = yield(variable).as {{ivar.type}}
       {% end %}
     {% end %}
   end
