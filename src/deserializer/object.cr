@@ -21,7 +21,7 @@ struct Crystalizer::Deserializer::Object(T, N)
   #
   # This method can be used for non self-describing formats (which does not holds keys).
   def set_each_ivar(&)
-    {% for ivar in O.instance_vars %}
+    {% for ivar in T.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
       {% unless ann && ann[:ignore] %}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
@@ -31,7 +31,7 @@ struct Crystalizer::Deserializer::Object(T, N)
           nilable: {{ivar.type.nilable?}},
           has_default: {{ivar.has_default_value?}}
         )
-        pointerof(object.@{{ivar}}).value = yield(variable).as {{ivar.type}}
+        pointerof(@object_instance.@{{ivar}}).value = yield(variable).as {{ivar.type}}
       {% end %}
     {% end %}
   end

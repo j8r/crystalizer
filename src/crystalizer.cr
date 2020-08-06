@@ -1,4 +1,5 @@
 require "./field"
+require "./object"
 require "./variable"
 
 module Crystalizer

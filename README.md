@@ -2,7 +2,7 @@
 
 [![ISC](https://img.shields.io/badge/License-ISC-blue.svg?style=flat-square)](https://en.wikipedia.org/wiki/ISC_license)
 
-[De]serialize any Crystal object - out of the box. Supports JSON, YAML.
+[De]serialize any Crystal object - out of the box. Supports JSON, YAML and Byte format.
 
 ## Features
 

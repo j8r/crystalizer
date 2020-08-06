@@ -1,5 +1,5 @@
 module Crystalizer::JSON
-  def self.serialize(object, *, indent : String = "  ")
+  def self.serialize(object, *, indent : String = "  ") : String
     String.build do |str|
       serialize str, object, indent
     end

@@ -15,7 +15,7 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
   # Sets the value of `key`, and yields its type class.
   def set_value(key : String, &)
     {% begin %}
-    {% i = 0 %}
+      {% i = 0 %}
       case key
       {% for key, type in NT %}
       when {{key.stringify}}
@@ -44,5 +44,9 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
       {% end %}
       }
     {% end %}
+  end
+
+  def size
+    {{NT.size}}
   end
 end

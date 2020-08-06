@@ -1,5 +1,5 @@
 module Crystalizer::YAML
-  def self.serialize(object)
+  def self.serialize(object) : String
     String.build do |str|
       serialize str, object
     end
