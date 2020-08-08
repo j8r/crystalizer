@@ -65,7 +65,7 @@ module Crystalizer::JSON
     when .string?
       type.parse(pull.read_string)
     else
-      raise Exception.new "Expecting int or string in JSON for #{type}, not #{pull.kind}"
+      raise Error.new "Expecting int or string in JSON for #{type}, not #{pull.kind}"
     end
   end
 

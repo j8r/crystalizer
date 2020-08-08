@@ -1,4 +1,7 @@
 struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
+  class Error < Exception
+  end
+
   @variables = StaticArray(U, N).new nil
 
   def self.new(type : ::NamedTuple.class)
@@ -22,7 +25,7 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
         @variables[{{i}}] = yield({{type}}).as({{type}})
         {% i = i + 1 %}
       {% end %}
-      else raise Exception.new "Missing key in {{NT}}: #{key}"
+      else raise Error.new "Missing key in {{NT}}: #{key}"
       end
     {% end %}
   end
@@ -35,9 +38,9 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
       {% for key, type in NT %}
         {{key}}: (
           case value = @variables[{{i}}]
-          when nil      then {% if !type.nilable? %} raise Exception.new "Missing {{key}} value." {% end %}
+          when nil      then {% if !type.nilable? %} raise Error.new "Missing {{key}} value." {% end %}
           when {{type}} then value
-          else          raise Exception.new "Incorrect type for {{key}}: #{value}"
+          else          raise Error.new "Incorrect type for {{key}}: #{value}"
           end
         ),
       {% i = i + 1 %}

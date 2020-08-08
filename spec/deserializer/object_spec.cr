@@ -23,7 +23,7 @@ describe Crystalizer::Deserializer::Object do
   end
 
   it "raises on setting a unknown key" do
-    expect_raises Crystalizer::Deserializer::Object::Exception,
+    expect_raises Crystalizer::Deserializer::Object::Error,
       message: "Unknown field in Strukt matching the given string: unknown_var" do
       obj = Crystalizer::Deserializer::Object.new Strukt
       obj.set_ivar "unknown_var" { 0 }
@@ -31,7 +31,7 @@ describe Crystalizer::Deserializer::Object do
   end
 
   it "raises on unset instance variable" do
-    expect_raises Crystalizer::Deserializer::Object::Exception,
+    expect_raises Crystalizer::Deserializer::Object::Error,
       message: "Missing instance variable value in Strukt: num" do
       Crystalizer::Deserializer::Object.new(Strukt).object_instance
     end

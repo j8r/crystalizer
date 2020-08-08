@@ -1,9 +1,9 @@
 name: crystalizer
-version: 0.5.0
+version: 0.5.1
 
 authors:
   - Julien Reichardt <contact@jrei.ch>
 
-description: A Crystal [de]serializer for any object, out of the box.
+description: [De]serialize any Crystal object, out of the box.
 
 license: ISC

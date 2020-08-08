@@ -4,6 +4,9 @@ struct Crystalizer::JSON::Any
 
   getter raw : Type
 
+  class Error < Exception
+  end
+
   def initialize(@raw : Type)
   end
 
@@ -32,7 +35,7 @@ struct Crystalizer::JSON::Any
       end
       hash
     else
-      raise Exception.new "Unknown pull kind: #{pull.kind}"
+      raise JSON::Error.new "Unknown pull kind: #{pull.kind}"
     end
   end
 end

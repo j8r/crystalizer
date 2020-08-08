@@ -2,6 +2,9 @@ struct Crystalizer::YAML::Any
   include Crystalizer::Any
   alias Type = Nil | Bool | Int64 | Float64 | String | Time | Bytes | Array(Crystalizer::Any) | Hash(Crystalizer::Any, Crystalizer::Any)
 
+  class Error < Exception
+  end
+
   getter raw : Type
 
   def initialize(@raw : Type)
@@ -43,7 +46,7 @@ struct Crystalizer::YAML::Any
     when ::YAML::Nodes::Alias
       anchors[node.anchor]
     else
-      raise Exception.new "Unknown node: #{node.class}"
+      raise Error.new "Unknown node: #{node.class}"
     end
   end
 end

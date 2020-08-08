@@ -1,10 +1,13 @@
 module Crystalizer::Any
-  # Returns the raw underlying value, a `T`.
+  class Error < Exception
+  end
+
+  # Returns the raw underlying value.
   abstract def raw
 
   # Casts the underlying value to `T`.
   def to(type : T.class) : T forall T
-    to?(type) || raise Exception.new "Expected #{T}, not #{@raw.class}"
+    to?(type) || raise Error.new "Expected #{T}, not #{@raw.class}"
   end
 
   # Casts the underlying value to `T`, or return nil if not possible.
@@ -24,7 +27,7 @@ module Crystalizer::Any
   end
 
   private def cast_to_hash_or_indexable(object = @raw)
-    cast_to_hash_or_indexable?(object) || raise Exception.new "Expected Hash or Indexable, not #{@raw.class}"
+    cast_to_hash_or_indexable?(object) || raise Error.new "Expected Hash or Indexable, not #{object.class}"
   end
 
   # Assumes the underlying value is an `Indexable` or a `Hash`, and returns the element
@@ -48,7 +51,7 @@ module Crystalizer::Any
   #
   # Raises if the underlying value is not a `Hash`.
   def [](key)
-    self[key]? || raise Exception.new "Key not found: #{key}"
+    self[key]? || raise Error.new "Key not found: #{key}"
   end
 
   # Assumes the underlying value is a `Hash` and returns the element

@@ -5,4 +5,6 @@ require "json"
 require "./json/*"
 
 module Crystalizer::JSON
+  class Error < Exception
+  end
 end
