@@ -4,6 +4,6 @@ version: 0.5.1
 authors:
   - Julien Reichardt <contact@jrei.ch>
 
-description: [De]serialize any Crystal object, out of the box.
+description: (De)serialize any Crystal object, out of the box.
 
 license: ISC

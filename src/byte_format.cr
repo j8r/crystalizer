@@ -4,13 +4,6 @@
 # On an object, only one of it can be present as the last instance variable, otherwise they will collide with the next ones - having no delimiter to separate them.
 #
 # Unions are also not supported.
-#
-# ```
-# struct Strukt
-#   @int = 123
-#   @str = "hello"
-# end
-#
 struct Crystalizer::ByteFormat
   class Error < Exception
   end

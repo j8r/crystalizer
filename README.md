@@ -18,7 +18,7 @@ Add the dependency to your `shard.yml`:
 
 ```yaml
 dependencies:
-  clicr:
+  crystalizer:
     github: j8r/crystalizer
 ```
 

@@ -27,8 +27,7 @@ struct Crystalizer::ByteFormat
   end
 
   def deserialize(to type : Bool.class)
-    byte = @io.read_byte
-    case byte
+    case byte = @io.read_byte
     when 0_u8 then false
     when 1_u8 then true
     else           raise Error.new "Invalid boolean byte different from 0 or 1: #{byte}"

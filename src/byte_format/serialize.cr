@@ -1,12 +1,12 @@
 struct Crystalizer::ByteFormat
-  def self.serialize(to object) : Bytes
+  def self.serialize(object) : Bytes
     io = IO::Memory.new
     new(io).serialize object
     io.to_slice
   end
 
-  def self.serialize(io : IO, to object) : Nil
-    serialize io, object
+  def self.serialize(io : IO, object) : Nil
+    new(io).serialize object
   end
 
   def serialize(number : Number::Primitive)
