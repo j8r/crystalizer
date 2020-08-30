@@ -21,10 +21,13 @@ struct Crystalizer::Deserializer::Object(T, N)
   #
   # This method can be used for non self-describing formats (which does not holds keys).
   def set_each_ivar(&)
+    {% begin %}
+    {% i = 0 %}
     {% for ivar in T.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
       {% unless ann && ann[:ignore] %}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
+        @found[{{i}}] = true
         variable = Variable.new(
           type: {{ivar.type}},
           annotations: {{ann && ann.named_args}},
@@ -32,7 +35,9 @@ struct Crystalizer::Deserializer::Object(T, N)
           has_default: {{ivar.has_default_value?}}
         )
         pointerof(@object_instance.@{{ivar}}).value = yield(variable).as {{ivar.type}}
+        {% i += 1 %}
       {% end %}
+    {% end %}
     {% end %}
   end
 
@@ -56,7 +61,7 @@ struct Crystalizer::Deserializer::Object(T, N)
           )
           pointerof(@object_instance.@{{ivar}}).value = yield(variable).as {{ivar.type}}
         {% end %}
-        {% i = i + 1 %}
+        {% i += 1 %}
       {% end %}
       else raise Error.new "Unknown field in {{T}} matching the given string: #{key}"
       end
@@ -77,7 +82,7 @@ struct Crystalizer::Deserializer::Object(T, N)
         {% end %}
       end
       {% end %}
-      {% i = i + 1 %}
+      {% i += 1 %}
     {% end %}
     {% end %}
   end
