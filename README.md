@@ -1,5 +1,7 @@
 # Crystalizer
 
+[![CI](https://github.com/j8r/crystalizer/workflows/CI/badge.svg)](https://github.com/j8r/crystalizer/actions?query=workflow%3ACI)
+[![Documentation](https://github.com/j8r/crystalizer/workflows/Documentation/badge.svg)](https://j8r.github.io/crystalizer)
 [![ISC](https://img.shields.io/badge/License-ISC-blue.svg?style=flat-square)](https://en.wikipedia.org/wiki/ISC_license)
 
 [De]serialize any Crystal object - out of the box. Supports JSON, YAML and Byte format.
