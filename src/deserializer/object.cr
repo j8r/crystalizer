@@ -11,7 +11,7 @@ struct Crystalizer::Deserializer::Object(T, N)
     @object_instance = instance
   end
 
-  def self.new(type : T.class) forall T
+  def self.new(type : T.class)
     {% begin %}
     Deserializer::Object(T, {{T.instance_vars.size}}).new
     {% end %}

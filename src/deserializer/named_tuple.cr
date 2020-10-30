@@ -8,9 +8,9 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
     internal_new type
   end
 
-  private def self.internal_new(type : NT.class) forall NT
+  private def self.internal_new(type : NT.class)
     {% begin %}
-    {% types = NT.keys.map { |k| NT[k] } + [Nil] %}
+    {% types = NT.keys.map { |k| NT[k] }; types << Nil %}
     Deserializer::NamedTuple({{ types.join(" | ").id }}, NT, {{NT.size}}).new
     {% end %}
   end
