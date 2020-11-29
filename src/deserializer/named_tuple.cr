@@ -23,7 +23,7 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
       {% for key, type in NT %}
       when {{key.stringify}}
         @variables[{{i}}] = yield({{type}}).as({{type}})
-        {% i = i + 1 %}
+        {% i += 1 %}
       {% end %}
       else raise Error.new "Missing key in {{NT}}: #{key}"
       end
@@ -43,7 +43,7 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
           else          raise Error.new "Incorrect type for {{key}}: #{value}"
           end
         ),
-      {% i = i + 1 %}
+      {% i += 1 %}
       {% end %}
       }
     {% end %}
