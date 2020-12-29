@@ -21,4 +21,5 @@ end
 
 require "./crystalizer"
 require "./deserializer"
+require "./deserializer/non_self_describing_object"
 require "./byte_format/*"

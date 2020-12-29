@@ -201,7 +201,7 @@ module Crystalizer::YAML
     {% if T.union_types.size > 1 %}
       deserialize_union(ctx, node, type)
     {% else %}
-      deserializer = Deserializer::Object.new type
+      deserializer = Deserializer::SelfDescribingObject.new type
       case node
       when ::YAML::Nodes::Mapping
         ::YAML::Schema::Core.each(node) do |key_node, value_node|

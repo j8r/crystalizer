@@ -93,7 +93,7 @@ struct Crystalizer::ByteFormat
     {% if T.union_types.size > 1 %}
       {% raise "Crystalizer::ByteFormat does not support unions; the protocol requires unambiguous field types." %}
     {% end %}
-    deserializer = Deserializer::Object.new type
+    deserializer = Deserializer::NonSelfDescribingObject.new type
     deserializer.set_each_ivar do |variable|
       deserialize variable.type
     end

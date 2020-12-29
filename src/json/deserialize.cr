@@ -181,7 +181,7 @@ module Crystalizer::JSON
     {% if T.union_types.size > 1 %}
       deserialize_union(pull, type)
     {% else %}
-      deserializer = Deserializer::Object.new type
+      deserializer = Deserializer::SelfDescribingObject.new type
       pull.read_begin_object
       while !pull.kind.end_object?
         key = pull.read_object_key
