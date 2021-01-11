@@ -125,4 +125,4 @@ Annotations are similar to the stdlib's `Serializable`, but all features are not
 
 ## License
 
-Copyright (c) 2020 Julien Reichardt - ISC License
+Copyright (c) 2020-2021 Julien Reichardt - ISC License
