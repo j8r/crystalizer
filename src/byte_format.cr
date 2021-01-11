@@ -8,6 +8,8 @@ struct Crystalizer::ByteFormat
   class Error < Exception
   end
 
+  getter io : IO
+
   # Byte to delimit the end of a `String`.
   class_property byte_delimiter : UInt8? = 0_u8
 
