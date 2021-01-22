@@ -13,11 +13,17 @@ module Crystalizer::YAML
     end
   end
 
+  private def self.de_unionize(builder : ::YAML::Nodes::Builder, object : U) forall U
+    {% for u in U.union_types %}
+      return serialize builder, object if object.is_a? {{u}}
+    {% end %}
+  end
+
   def self.serialize(builder : ::YAML::Nodes::Builder, object : O) forall O
     builder.mapping do
       Crystalizer.each_ivar(object) do |key, value|
-        serialize builder, key
-        serialize builder, value
+        de_unionize builder, key
+        de_unionize builder, value
       end
     end
   end

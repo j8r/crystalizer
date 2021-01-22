@@ -11,11 +11,17 @@ module Crystalizer::JSON
     end
   end
 
+  private def self.de_unionize(builder : ::JSON::Builder, object : U) forall U
+    {% for u in U.union_types %}
+      return serialize builder, object if object.is_a? {{u}}
+    {% end %}
+  end
+
   def self.serialize(builder : ::JSON::Builder, object : O) forall O
     builder.object do
       Crystalizer.each_ivar(object) do |key, value|
         builder.field key do
-          serialize builder, value
+          de_unionize builder, value
         end
       end
     end

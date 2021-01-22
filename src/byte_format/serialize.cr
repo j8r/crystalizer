@@ -46,9 +46,15 @@ struct Crystalizer::ByteFormat
     end
   end
 
+  private def de_unionize(object : U) forall U
+    {% for u in U.union_types %}
+      return serialize object if object.is_a? {{u}}
+    {% end %}
+  end
+
   def serialize(object : O) forall O
     Crystalizer.each_ivar(object) do |_, value|
-      serialize value
+      de_unionize value
     end
   end
 end
