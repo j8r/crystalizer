@@ -21,13 +21,26 @@ class Obj
 end
 
 class Nested
-  getter obj : Obj
+  getter str : String
 
-  def initialize(@obj)
+  def initialize(@str)
   end
 
   def ==(other : self)
-    @obj == other.obj
+    @str == other.str
+  end
+end
+
+class Parent
+  getter str : String
+
+  getter nested : Nested
+
+  def initialize(@str, @nested)
+  end
+
+  def ==(other : self)
+    @str == other.str && @nested == other.nested
   end
 end
 

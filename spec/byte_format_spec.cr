@@ -20,17 +20,6 @@ module ByteFormatTest
       @x == other.x && @y == other.y
     end
   end
-
-  class Nested
-    getter obj : Obj
-
-    def initialize(@obj)
-    end
-
-    def ==(other : self)
-      @obj == other.obj
-    end
-  end
 end
 
 private def assert_byte_format_serialization(object : T, bytes : Bytes, line = __LINE__) forall T
@@ -59,11 +48,11 @@ describe Crystalizer::ByteFormat do
   end
 
   describe "nested class" do
-    point = ByteFormatTest::Obj.new
-    nested = ByteFormatTest::Nested.new(point)
-    bytes = Bytes[1, 0, 0, 0, 97, 0]
+    nested = Nested.new("bar")
+    obj = Parent.new("foo", nested)
+    bytes = Bytes[102, 111, 111, 0, 98, 97, 114, 0]
 
-    assert_byte_format_serialization nested, bytes
+    assert_byte_format_serialization obj, bytes
   end
 
   describe Array do
