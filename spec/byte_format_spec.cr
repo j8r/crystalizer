@@ -47,6 +47,14 @@ describe Crystalizer::ByteFormat do
     assert_byte_format_serialization point, bytes
   end
 
+  describe "nested class" do
+    nested = Nested.new("bar")
+    obj = Parent.new("foo", nested)
+    bytes = Bytes[102, 111, 111, 0, 98, 97, 114, 0]
+
+    assert_byte_format_serialization obj, bytes
+  end
+
   describe Array do
     assert_byte_format_serialization([1, 2], Bytes[1, 0, 0, 0, 2, 0, 0, 0])
   end
