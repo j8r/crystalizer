@@ -15,10 +15,14 @@ module Crystalizer::YAML
 
   def self.serialize(builder : ::YAML::Nodes::Builder, object : O) forall O
     builder.mapping do
-      object.each_ivar do |key, value|
-        serialize builder, key
-        serialize builder, value
-      end
+      {% for ivar in O.instance_vars %}
+      {% ann = ivar.annotation(::Crystalizer::Field) %}
+        {% unless ann && ann[:ignore] %}
+          {% key = ((ann && ann[:key]) || ivar).id.stringify %}
+          serialize builder, {{ key.id.stringify }}
+          serialize builder, object.@{{ivar}}
+        {% end %}
+      {% end %}
     end
   end
 

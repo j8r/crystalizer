@@ -13,11 +13,15 @@ module Crystalizer::JSON
 
   def self.serialize(builder : ::JSON::Builder, object : O) forall O
     builder.object do
-      object.each_ivar do |key, value|
-        builder.field key do
-          serialize builder, value
-        end
-      end
+      {% for ivar in O.instance_vars %}
+      {% ann = ivar.annotation(::Crystalizer::Field) %}
+        {% unless ann && ann[:ignore] %}
+          {% key = ((ann && ann[:key]) || ivar).id.stringify %}
+          builder.field {{ key.id.stringify }} do
+            serialize builder, object.@{{ivar}}
+          end
+        {% end %}
+      {% end %}
     end
   end
 

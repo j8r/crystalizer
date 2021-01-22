@@ -47,8 +47,12 @@ struct Crystalizer::ByteFormat
   end
 
   def serialize(object : O) forall O
-    object.each_ivar do |_, value|
-      serialize value
-    end
+    {% for ivar in O.instance_vars %}
+    {% ann = ivar.annotation(::Crystalizer::Field) %}
+      {% unless ann && ann[:ignore] %}
+        {% key = ((ann && ann[:key]) || ivar).id.stringify %}
+        serialize object.@{{ivar}}
+      {% end %}
+    {% end %}
   end
 end
