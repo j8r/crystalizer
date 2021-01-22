@@ -15,7 +15,7 @@ module Crystalizer::YAML
 
   def self.serialize(builder : ::YAML::Nodes::Builder, object : O) forall O
     builder.mapping do
-      Crystalizer.each_ivar(object) do |key, value|
+      object.each_ivar do |key, value|
         serialize builder, key
         serialize builder, value
       end

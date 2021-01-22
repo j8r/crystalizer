@@ -47,7 +47,7 @@ struct Crystalizer::ByteFormat
   end
 
   def serialize(object : O) forall O
-    Crystalizer.each_ivar(object) do |_, value|
+    object.each_ivar do |_, value|
       serialize value
     end
   end

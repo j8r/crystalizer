@@ -38,6 +38,21 @@ describe Crystalizer::YAML do
     assert_yaml_serialization obj, yaml_obj
   end
 
+  describe "nested class" do
+    obj = Obj.new ["a", "b"]
+    nested = Nested.new(obj)
+    yaml_obj = <<-E
+    ---
+    obj:
+      ary:
+      - a
+      - b
+
+    E
+
+    assert_yaml_serialization nested, yaml_obj
+  end
+
   describe Crystalizer::YAML::Any do
     yaml = <<-E
     ---

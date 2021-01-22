@@ -20,6 +20,17 @@ class Obj
   end
 end
 
+class Nested
+  getter obj : Obj
+
+  def initialize(@obj)
+  end
+
+  def ==(other : self)
+    @obj == other.obj
+  end
+end
+
 enum Enu
   A
   B

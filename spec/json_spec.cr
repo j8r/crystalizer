@@ -27,6 +27,14 @@ describe Crystalizer::JSON do
     assert_json_serialization obj, json_obj
   end
 
+  describe "nested class" do
+    obj = Obj.new ["a", "b"]
+    nested = Nested.new(obj)
+    json_obj = %({"obj":{"ary":["a","b"]}})
+
+    assert_json_serialization nested, json_obj
+  end
+
   describe Crystalizer::JSON::Any do
     json = %({"ary":["a",1]})
     any = Crystalizer::JSON.parse json

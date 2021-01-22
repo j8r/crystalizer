@@ -13,7 +13,7 @@ module Crystalizer::JSON
 
   def self.serialize(builder : ::JSON::Builder, object : O) forall O
     builder.object do
-      Crystalizer.each_ivar(object) do |key, value|
+      object.each_ivar do |key, value|
         builder.field key do
           serialize builder, value
         end
