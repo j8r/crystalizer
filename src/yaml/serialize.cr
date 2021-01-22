@@ -15,14 +15,9 @@ module Crystalizer::YAML
 
   def self.serialize(builder : ::YAML::Nodes::Builder, object : O) forall O
     builder.mapping do
-      {% for ivar in O.instance_vars %}
-      {% ann = ivar.annotation(::Crystalizer::Field) %}
-        {% unless ann && ann[:ignore] %}
-          {% key = ((ann && ann[:key]) || ivar).id.stringify %}
-          serialize builder, {{ key.id.stringify }}
-          serialize builder, object.@{{ivar}}
-        {% end %}
-      {% end %}
+      Crystalizer.each_ivar(object) do |key, value|
+        de_unionize(builder, key, value)
+      end
     end
   end
 
@@ -82,5 +77,14 @@ module Crystalizer::YAML
 
   def self.serialize(builder : ::YAML::Nodes::Builder, time : Time)
     builder.scalar Time::Format::YAML_DATE.format(time)
+  end
+
+  private def self.de_unionize(builder, key, object : U) forall U
+    {% for u in U.union_types %}
+      if object.is_a? {{u}}
+        serialize builder, key
+        serialize builder, object
+      end
+    {% end %}
   end
 end

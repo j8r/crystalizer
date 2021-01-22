@@ -47,12 +47,16 @@ struct Crystalizer::ByteFormat
   end
 
   def serialize(object : O) forall O
-    {% for ivar in O.instance_vars %}
-    {% ann = ivar.annotation(::Crystalizer::Field) %}
-      {% unless ann && ann[:ignore] %}
-        {% key = ((ann && ann[:key]) || ivar).id.stringify %}
-        serialize object.@{{ivar}}
-      {% end %}
+    Crystalizer.each_ivar(object) do |_, value|
+      de_unionize(value)
+    end
+  end
+
+  private def de_unionize(object : U) forall U
+    {% for u in U.union_types %}
+      if object.is_a? {{u}}
+        serialize object
+      end
     {% end %}
   end
 end

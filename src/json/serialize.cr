@@ -13,15 +13,11 @@ module Crystalizer::JSON
 
   def self.serialize(builder : ::JSON::Builder, object : O) forall O
     builder.object do
-      {% for ivar in O.instance_vars %}
-      {% ann = ivar.annotation(::Crystalizer::Field) %}
-        {% unless ann && ann[:ignore] %}
-          {% key = ((ann && ann[:key]) || ivar).id.stringify %}
-          builder.field {{ key.id.stringify }} do
-            serialize builder, object.@{{ivar}}
-          end
-        {% end %}
-      {% end %}
+      Crystalizer.each_ivar(object) do |key, value|
+        builder.field key do
+          de_unionize(builder, value)
+        end
+      end
     end
   end
 
@@ -95,5 +91,13 @@ module Crystalizer::JSON
 
   def self.serialize(builder : ::JSON::Builder, time : Time)
     builder.string(Time::Format::RFC_3339.format(time, fraction_digits: 0))
+  end
+
+  private def self.de_unionize(builder, object : U) forall U
+    {% for u in U.union_types %}
+      if object.is_a? {{u}}
+        return serialize builder, object
+      end
+    {% end %}
   end
 end
