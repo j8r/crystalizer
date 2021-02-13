@@ -132,7 +132,11 @@ describe Crystalizer::YAML do
   end
 
   describe Nil do
-    assert_yaml_serialization(nil, "--- \n")
+    if YAML.libyaml_version < SemanticVersion.new(0, 2, 5)
+      assert_yaml_serialization(nil, "--- \n")
+    else
+      assert_yaml_serialization(nil, "---\n")
+    end
   end
 
   describe Time do
