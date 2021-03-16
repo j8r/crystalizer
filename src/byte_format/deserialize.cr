@@ -90,7 +90,9 @@ struct Crystalizer::ByteFormat
   end
 
   def deserialize(to type : T.class) : T forall T
-    {% if T.union_types.size > 1 %}
+    {% if T < Enum %}
+      raise Error.new "Enum type not expected here: #{T}"
+    {% elsif T.union_types.size > 1 %}
       {% raise "Crystalizer::ByteFormat does not support unions; the protocol requires unambiguous field types." %}
     {% end %}
     deserializer = Deserializer::NonSelfDescribingObject.new type

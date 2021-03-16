@@ -85,4 +85,8 @@ describe Crystalizer::JSON do
   describe Time do
     assert_json_serialization Time.utc(2020, 1, 2, 3), %("2020-01-02T03:00:00Z")
   end
+
+  describe "compiles when an object has two enum ivars" do
+    assert_json_serialization ObjWithEnum.new, %({"i":1,"enu1":0,"other":1})
+  end
 end

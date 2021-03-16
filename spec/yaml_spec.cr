@@ -146,4 +146,8 @@ describe Crystalizer::YAML do
   describe Slice(UInt8) do
     assert_yaml_serialization "abc".to_slice, "--- !!binary 'YWJj\n\n  '\n"
   end
+
+  describe "compiles when an object has two enum ivars" do
+    assert_yaml_serialization ObjWithEnum.new, "---\ni: 1\nenu1: 0\nother: 1\n"
+  end
 end

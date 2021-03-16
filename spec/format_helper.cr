@@ -48,3 +48,10 @@ enum Enu
   A
   B
 end
+
+enum Other
+  A
+  B
+end
+
+record ObjWithEnum, i = 1_u8, enu1 = Enu::A, other = Other::B

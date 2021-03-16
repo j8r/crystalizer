@@ -98,4 +98,8 @@ describe Crystalizer::ByteFormat do
       Crystalizer::ByteFormat.serialize(:a).should eq Bytes[97, 0]
     end
   end
+
+  describe "compiles when an object has two enum ivars" do
+    assert_byte_format_serialization(ObjWithEnum.new, Bytes[1, 0, 0, 0, 0, 1, 0, 0, 0])
+  end
 end
