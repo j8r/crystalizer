@@ -34,25 +34,24 @@ end
 
 describe Crystalizer::ByteFormat do
   describe "struct" do
-    point = ByteFormatTest::Point.new
-    bytes = Bytes[1, 0, 0, 0, 97, 0]
-
-    assert_byte_format_serialization point, bytes
+    assert_byte_format_serialization(
+      ByteFormatTest::Point.new,
+      Bytes[1, 0, 0, 0, 97, 0]
+    )
   end
 
   describe "class" do
-    point = ByteFormatTest::Obj.new
-    bytes = Bytes[1, 0, 0, 0, 97, 0]
-
-    assert_byte_format_serialization point, bytes
+    assert_byte_format_serialization(
+      ByteFormatTest::Obj.new,
+      Bytes[1, 0, 0, 0, 97, 0]
+    )
   end
 
   describe "nested class" do
-    nested = Nested.new("bar")
-    obj = Parent.new("foo", nested)
-    bytes = Bytes[102, 111, 111, 0, 98, 97, 114, 0]
-
-    assert_byte_format_serialization obj, bytes
+    assert_byte_format_serialization(
+      Parent.new("foo", Nested.new("bar")),
+      Bytes[102, 111, 111, 0, 98, 97, 114, 0]
+    )
   end
 
   describe Array do

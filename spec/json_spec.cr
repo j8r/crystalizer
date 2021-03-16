@@ -14,25 +14,18 @@ end
 
 describe Crystalizer::JSON do
   describe "struct" do
-    point = Point.new 1
-    json_point = %({"x":1,"Y":"a"})
-
-    assert_json_serialization point, json_point
+    assert_json_serialization Point.new(1), %({"x":1,"Y":"a"})
   end
 
   describe "class" do
-    obj = Obj.new ["a", "b"]
-    json_obj = %({"ary":["a","b"]})
-
-    assert_json_serialization obj, json_obj
+    assert_json_serialization Obj.new(["a", "b"]), %({"ary":["a","b"]})
   end
 
   describe "nested class" do
-    nested = Nested.new("bar")
-    obj = Parent.new("foo", nested)
-    json_obj = %({"str":"foo","nested":{"str":"bar"}})
-
-    assert_json_serialization obj, json_obj
+    assert_json_serialization(
+      Parent.new("foo", Nested.new("bar")),
+      %({"str":"foo","nested":{"str":"bar"}})
+    )
   end
 
   describe Crystalizer::JSON::Any do
