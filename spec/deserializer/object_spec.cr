@@ -11,6 +11,18 @@ struct Strukt
   end
 end
 
+abstract struct Abstract
+  abstract def num : Int32
+end
+
+struct S0 < Abstract
+  getter num : Int32 = 0
+end
+
+struct S1 < Abstract
+  getter num : Int32 = 1
+end
+
 describe Crystalizer::Deserializer::Object do
   describe Crystalizer::Deserializer::SelfDescribingObject do
     it "creates an object with default values" do
@@ -38,6 +50,12 @@ describe Crystalizer::Deserializer::Object do
         Crystalizer::Deserializer::SelfDescribingObject.new(Strukt).object_instance
       end
     end
+
+    it "deserializes abstract types" do
+      {S0, S1}.each_with_index do |t, i|
+        Crystalizer::Deserializer::SelfDescribingObject.new(t).object_instance.num.should eq i
+      end
+    end
   end
 
   describe Crystalizer::Deserializer::NonSelfDescribingObject do
@@ -52,6 +70,12 @@ describe Crystalizer::Deserializer::Object do
         message: "#set_each_ivar not previously called: no instance variable set." do
         obj = Crystalizer::Deserializer::NonSelfDescribingObject.new Properties
         obj.object_instance
+      end
+    end
+
+    it "deserializes abstract types" do
+      {S0, S1}.each_with_index do |t, i|
+        Crystalizer::Deserializer::SelfDescribingObject.new(t).object_instance.num.should eq i
       end
     end
   end

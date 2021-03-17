@@ -178,9 +178,7 @@ module Crystalizer::JSON
   end
 
   def self.deserialize(pull : ::JSON::PullParser, to type : T.class) : T forall T
-    {% if T < Enum %}
-      raise Error.new "Enum type not expected here: #{T}"
-    {% elsif T.union_types.size > 1 %}
+    {% if T.union_types.size > 1 %}
       deserialize_union(pull, type)
     {% else %}
       deserializer = Deserializer::SelfDescribingObject.new type

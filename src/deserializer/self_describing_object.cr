@@ -6,9 +6,7 @@ struct Crystalizer::Deserializer::SelfDescribingObject(T, N)
   @found = StaticArray(Bool, N).new false
 
   def self.new(type : T.class)
-    {% begin %}
-    SelfDescribingObject(T, {{T.instance_vars.size}}).new
-    {% end %}
+    init "SelfDescribingObject(T, {{T.instance_vars.size}})"
   end
 
   # Sets a value for an instance variable corresponding to the key.

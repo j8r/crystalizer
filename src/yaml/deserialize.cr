@@ -198,9 +198,7 @@ module Crystalizer::YAML
   end
 
   def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : T.class) : T forall T
-    {% if T < Enum %}
-      raise Error.new "Enum type not expected here: #{T}"
-    {% elsif T.union_types.size > 1 %}
+    {% if T.union_types.size > 1 %}
       deserialize_union(ctx, node, type)
     {% else %}
       deserializer = Deserializer::SelfDescribingObject.new type

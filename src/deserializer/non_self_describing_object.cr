@@ -6,9 +6,7 @@ struct Crystalizer::Deserializer::NonSelfDescribingObject(T)
   @ran = false
 
   def self.new(type : T.class)
-    {% begin %}
-      NonSelfDescribingObject(T).new
-    {% end %}
+    init NonSelfDescribingObject(T)
   end
 
   # Yields each instance variable's `Variable` metadata and it value.
