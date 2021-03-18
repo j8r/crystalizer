@@ -15,7 +15,7 @@ struct Crystalizer::Deserializer::NonSelfDescribingObject(T)
   def set_each_ivar(&)
     {% for ivar in T.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
-      {% unless ann && ann[:ignore] %}
+      {% unless ann && (ann[:ignore] || ann[:ignore_deserialize])%}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
         variable = Variable.new(
           type: {{ivar.type}},
