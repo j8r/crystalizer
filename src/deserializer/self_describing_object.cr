@@ -16,7 +16,7 @@ struct Crystalizer::Deserializer::SelfDescribingObject(T, N)
     case key
     {% for ivar in T.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
-      {% unless ann && ann[:ignore] %}
+      {% unless ann && (ann[:ignore] || ann[:ignore_deserialize]) %}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
         when {{key}}
           raise Error.new "Duplicated field for #{T}: #{key}" if @found[{{i}}]
@@ -41,7 +41,7 @@ struct Crystalizer::Deserializer::SelfDescribingObject(T, N)
     {% i = 0 %}
     {% for ivar in T.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
-      {% unless ann && ann[:ignore] %}
+      {% unless ann && (ann[:ignore] || ann[:ignore_deserialize]) %}
       if !@found[{{i}}]
         {% if ivar.has_default_value? %}
           pointerof(@object_instance.@{{ivar}}).value = {{ivar.default_value}}
