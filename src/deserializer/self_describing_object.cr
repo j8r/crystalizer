@@ -19,7 +19,7 @@ struct Crystalizer::Deserializer::SelfDescribingObject(T, N)
       {% unless ann && ann[:ignore] %}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
         when {{key}}
-          raise Error.new "Duplicated field for {{T}}: #{key}" if @found[{{i}}]
+          raise Error.new "Duplicated field for #{T}: #{key}" if @found[{{i}}]
           @found[{{i}}] = true
           variable = Variable.new(
             type: {{ivar.type}},
@@ -31,7 +31,7 @@ struct Crystalizer::Deserializer::SelfDescribingObject(T, N)
         {% end %}
         {% i += 1 %}
       {% end %}
-      else raise Error.new "Unknown field in {{T}} matching the given string: #{key}"
+      else raise Error.new "Unknown field in #{T} matching the given string: #{key}"
       end
     {% end %}
   end
@@ -46,7 +46,7 @@ struct Crystalizer::Deserializer::SelfDescribingObject(T, N)
         {% if ivar.has_default_value? %}
           pointerof(@object_instance.@{{ivar}}).value = {{ivar.default_value}}
         {% elsif !ivar.type.nilable? %}
-          raise Error.new "Missing instance variable value in {{T}}: {{ivar}}"
+          raise Error.new "Missing instance variable value in #{T}: {{ivar}}"
         {% end %}
       end
       {% end %}
