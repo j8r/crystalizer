@@ -5,6 +5,23 @@ require "./variable"
 module Crystalizer
   # Yields each instance variable with its key, value and `Variable` metadata.
   protected def self.each_ivar(object : O, &) forall O
+    {% if O.abstract? %}
+      {% for type in O.all_subclasses %}
+        if object.is_a? {{type}}
+          internal_each_ivar(object) do |key, obj, var|
+            yield key, obj, var
+          end
+          return
+        end
+      {% end %}
+    {% else %}
+      internal_each_ivar(object) do |key, obj, var|
+        yield key, obj, var
+      end
+    {% end %}
+  end
+
+  private def self.internal_each_ivar(object : O, &) forall O
     {% for ivar in O.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
       {% unless ann && (ann[:ignore] || ann[:ignore_serialize]) %}
