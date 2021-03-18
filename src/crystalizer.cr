@@ -7,7 +7,7 @@ module Crystalizer
   protected def self.each_ivar(object : O, &) forall O
     {% for ivar in O.instance_vars %}
       {% ann = ivar.annotation(::Crystalizer::Field) %}
-      {% unless ann && (ann[:ignore] || ann[:ignore_serialize])%}
+      {% unless ann && (ann[:ignore] || ann[:ignore_serialize]) %}
         {% key = ((ann && ann[:key]) || ivar).id.stringify %}
         yield {{key}}, object.@{{ivar}}, Variable.new(
             type: {{ivar.type}},
