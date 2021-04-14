@@ -1,9 +1,11 @@
 name: crystalizer
-version: 0.5.8
+version: 1.0.0
 
 authors:
   - Julien Reichardt <contact@jrei.ch>
 
 description: (De)serialize any Crystal object, out of the box.
+
+crystal: ">= 0.35.0, < 2.0.0"
 
 license: ISC
