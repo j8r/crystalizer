@@ -105,6 +105,16 @@ describe Crystalizer::YAML do
 
     E
     )
+
+    assert_yaml_serialization({a: "A", ary_union: [1, "a"]}, <<-E
+    ---
+    a: A
+    ary_union:
+    - 1
+    - a
+
+    E
+    )
   end
 
   describe Bool do

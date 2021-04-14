@@ -13,6 +13,12 @@ module Crystalizer::JSON
     type.new pull
   end
 
+  private def self.de_unionize(builder : ::JSON::PullParser, object : U) forall U
+    {% for u in U.union_types %}
+      return deserialize builder, object if object.is_a? {{u}}
+    {% end %}
+  end
+
   def self.deserialize(pull : ::JSON::PullParser, to type : Hash.class)
     hash = type.new
     key_class, value_class = typeof(hash.first)
@@ -51,7 +57,7 @@ module Crystalizer::JSON
 
     pull.read_object do |key|
       deserializer.set_value key do |value_type|
-        deserialize pull, value_type
+        de_unionize pull, value_type
       end
     end
 

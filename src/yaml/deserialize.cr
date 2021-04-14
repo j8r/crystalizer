@@ -37,6 +37,12 @@ module Crystalizer::YAML
     deserialize string_or_io, Any
   end
 
+  private def self.de_unionize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, object : U) forall U
+    {% for u in U.union_types %}
+      return deserialize ctx, node, object if object.is_a? {{u}}
+    {% end %}
+  end
+
   def self.deserialize(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node, to type : ::YAML::Serializable.class | Any.class)
     type.new ctx, node
   end
@@ -107,7 +113,7 @@ module Crystalizer::YAML
     ::YAML::Schema::Core.each(node) do |key_node, value_node|
       key = String.new(ctx, key_node)
       deserializer.set_value key do |value_type|
-        deserialize ctx, value_node, value_type
+        de_unionize ctx, value_node, value_type
       end
     end
 

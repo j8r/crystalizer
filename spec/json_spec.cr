@@ -52,6 +52,8 @@ describe Crystalizer::JSON do
 
   describe NamedTuple do
     assert_json_serialization({a: "A", b: 1}, %({"a":"A","b":1}))
+
+    assert_json_serialization({a: "A", ary_union: [1, "a"]}, %({"a":"A","ary_union":[1,"a"]}))
   end
 
   describe Bool do
