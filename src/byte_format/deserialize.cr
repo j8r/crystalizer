@@ -77,10 +77,10 @@ struct Crystalizer::ByteFormat
   # Deserializes a `String` from reading from the `io`, delimited by a trailing `string_delimiter`.
   def deserialize(to type : String.class)
     if string_delimiter = @string_delimiter
-      @io.gets string_delimiter, true
+      @io.gets(string_delimiter, true) || ""
     else
-      @io.gets
-    end || ""
+      @io.gets_to_end
+    end
   end
 
   def deserialize(to type : Tuple.class)
