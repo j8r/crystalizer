@@ -11,12 +11,12 @@ struct Crystalizer::ByteFormat
   getter io : IO
 
   # Byte to delimit the end of a `String`.
-  class_property byte_delimiter : UInt8? = 0_u8
+  class_property string_delimiter : Char? = '\0'
 
   def initialize(
     @io : IO = IO::Memory.new,
     @format : IO::ByteFormat = IO::ByteFormat::SystemEndian,
-    @byte_delimiter : UInt8? = @@byte_delimiter
+    @string_delimiter : Char? = @@string_delimiter
   )
   end
 end
