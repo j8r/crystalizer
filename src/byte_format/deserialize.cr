@@ -74,12 +74,12 @@ struct Crystalizer::ByteFormat
     Path.new deserialize(String, size)
   end
 
-  # Deserializes a `String` from reading from the `io`, delimited by a trailing `byte_delimiter`.
+  # Deserializes a `String` from reading from the `io`, delimited by a trailing `string_delimiter`.
   def deserialize(to type : String.class)
-    String.build do |str|
-      while (byte = @io.read_byte) && byte != @byte_delimiter
-        str.write_byte byte
-      end
+    if string_delimiter = @string_delimiter
+      @io.gets(string_delimiter, true) || ""
+    else
+      @io.gets_to_end
     end
   end
 
