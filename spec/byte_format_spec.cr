@@ -13,6 +13,18 @@ module ByteFormatTest
     C
   end
 
+  struct DescGood
+    @a = "Short"
+    @[Crystalizer::Field(max_size: 20)]
+    @b = "Long description"
+  end
+
+  struct DescBad
+    @a = "Short"
+    @[Crystalizer::Field(max_size: 10)]
+    @b = "Long description"
+  end
+
   class Obj
     getter x = 1, y = "a"
 
@@ -91,6 +103,12 @@ describe Crystalizer::ByteFormat do
 
   describe String do
     assert_byte_format_serialization("abc", Bytes[97, 98, 99, 0])
+
+    bytes = Bytes[83, 104, 111, 114, 116, 0, 76, 111, 110, 103, 32, 100, 101, 115, 99, 114, 105, 112, 116, 105, 111, 110, 0]
+    assert_byte_format_serialization(ByteFormatTest::DescGood.new, bytes)
+    expect_raises Crystalizer::ByteFormat::Error, message: "String too long (max size: 10)" do
+      Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::DescBad)
+    end
   end
 
   describe Symbol do

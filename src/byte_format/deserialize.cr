@@ -83,6 +83,11 @@ struct Crystalizer::ByteFormat
     end
   end
 
+  # :ditto:
+  def deserialize(to type : String.class, max_size : Int)
+    @io.gets(@string_delimiter.not_nil!, max_size, true) || ""
+  end
+
   def deserialize(to type : Tuple.class)
     Crystalizer.create_tuple type do |value_type|
       deserialize value_type
@@ -95,7 +100,20 @@ struct Crystalizer::ByteFormat
     {% else %}
       deserializer = Deserializer::NonSelfDescribingObject.new type
       deserializer.set_each_ivar do |variable|
-        deserialize variable.type
+        case variable_type = variable.type
+        when String.class
+          if max_size = variable.annotations.try &.[:max_size]
+            str = deserialize variable_type, max_size: max_size
+            if str.size == max_size
+              raise Error.new "String too long (max size: #{max_size})"
+            end
+            str
+          else
+            deserialize variable_type
+          end
+        else
+          deserialize variable_type
+        end
       end
       deserializer.object_instance
     {% end %}

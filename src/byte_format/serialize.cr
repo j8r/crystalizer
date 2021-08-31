@@ -46,6 +46,14 @@ struct Crystalizer::ByteFormat
     end
   end
 
+  def serialize(string : String, max_size : Int)
+    if string.size < max_size
+      serialize string
+    else
+      raise Error.new "String too long (max size: #{max_size})"
+    end
+  end
+
   private def de_unionize(object : U) forall U
     {% for u in U.union_types %}
       return serialize object if object.is_a? {{u}}
