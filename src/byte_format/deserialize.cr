@@ -109,7 +109,7 @@ struct Crystalizer::ByteFormat
     string
   end
 
-  # Deserializes a `String` from reading from the `io`. String is exactly `size` bytes with no trailing '\0'.
+  # Deserializes a `String` from reading from the `io`. String is exactly `size` bytes with no trailing `@string_delimiter`.
   def deserialize(to type : String.class, size : Int)
     @io.read_string size
   end
