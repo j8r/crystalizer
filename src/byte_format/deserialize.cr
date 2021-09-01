@@ -67,11 +67,7 @@ struct Crystalizer::ByteFormat
   end
 
   def deserialize(to type : Number::Primitive.class)
-    begin
-      @io.read_bytes type, @format
-    rescue e
-      raise Error.new e.message
-    end
+    @io.read_bytes type, @format
   end
 
   def deserialize(to type : Path.class)
