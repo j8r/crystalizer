@@ -185,7 +185,6 @@ describe Crystalizer::ByteFormat do
   end
 
   describe String do
-
     describe "(de)serialization" do
       assert_byte_format_serialization("abc", Bytes[97, 98, 99, 0])
 
