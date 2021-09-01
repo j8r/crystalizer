@@ -17,34 +17,42 @@ module ByteFormatTest
     @[Crystalizer::Field(size: ..20)]
     @b = "Long description"
   end
+
   struct StringGoodRange2
     @[Crystalizer::Field(size: 10..)]
     @b = "Long description"
   end
+
   struct StringGoodRange3
     @[Crystalizer::Field(size: 10..20)]
     @b = "Long description"
   end
+
   struct StringGoodRange4
     @[Crystalizer::Field(size: ...20)]
     @b = "Long description"
   end
+
   struct StringGoodRange5
     @[Crystalizer::Field(size: 10...)]
     @b = "Long description"
   end
+
   struct StringGoodRange6
     @[Crystalizer::Field(size: 10...20)]
     @b = "Long description"
   end
+
   struct StringGoodRange7
     @[Crystalizer::Field(size: 16...20)]
     @b = "Long description"
   end
+
   struct StringGoodRange8
     @[Crystalizer::Field(size: 10..16)]
     @b = "Long description"
   end
+
   struct StringGoodRange9
     @[Crystalizer::Field(size: 10...17)]
     @b = "Long description"
@@ -59,26 +67,32 @@ module ByteFormatTest
     @[Crystalizer::Field(size: 6..)]
     @a = "Short"
   end
+
   struct StringBadRange2
     @[Crystalizer::Field(size: ..4)]
     @a = "Short"
   end
+
   struct StringBadRange3
     @[Crystalizer::Field(size: 6..8)]
     @a = "Short"
   end
+
   struct StringBadRange4
     @[Crystalizer::Field(size: 6..8)]
     @a = "Long description"
   end
+
   struct StringBadRange5
     @[Crystalizer::Field(size: 6...)]
     @a = "Short"
   end
+
   struct StringBadRange6
     @[Crystalizer::Field(size: ...4)]
     @a = "Short"
   end
+
   struct StringBadRange7
     @[Crystalizer::Field(size: 6...8)]
     @a = "Short"

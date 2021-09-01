@@ -90,13 +90,13 @@ struct Crystalizer::ByteFormat
   # :ditto:
   def deserialize(to type : String.class, size : Range)
     str = if max_size = size.end
-      # An alternative to reading limit `max_size + 1` would be to read `max_size` or `max_size - 1`
-      # (depending on `size.excludes_end?`), then peek the next char for '\0' and either consume it
-      # (if it is '\0') or set a flag for string being out of bounds.
-      @io.gets(@string_delimiter.not_nil!, max_size + 1, true) || ""
-    else
-      deserialize type
-    end
+            # An alternative to reading limit `max_size + 1` would be to read `max_size` or `max_size - 1`
+            # (depending on `size.excludes_end?`), then peek the next char for '\0' and either consume it
+            # (if it is '\0') or set a flag for string being out of bounds.
+            @io.gets(@string_delimiter.not_nil!, max_size + 1, true) || ""
+          else
+            deserialize type
+          end
 
     if max_size && ((excludes_end = size.excludes_end?) ? str.size >= max_size : str.size > max_size)
       raise Error.new "String size not in range: #{size}"
