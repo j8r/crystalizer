@@ -39,7 +39,7 @@ struct Crystalizer::ByteFormat
   end
 
   # Serializes a `String` to bytes, written to the `io`, and add a trailing `string_delimiter`.
-  def serialize(string : Path | String | Symbol, add_delimiter = true)
+  def serialize(string : Path | String | Symbol, add_delimiter : Bool = true)
     string.to_s @io
     if add_delimiter && (string_delimiter = @string_delimiter)
       @io << string_delimiter
