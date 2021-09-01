@@ -13,6 +13,21 @@ module ByteFormatTest
     C
   end
 
+  struct StringGoodSize
+    @[Crystalizer::Field(size: 5)]
+    @a = "Short"
+  end
+
+  struct StringBadSize1
+    @[Crystalizer::Field(size: 4)]
+    @a = "Short"
+  end
+
+  struct StringBadSize2
+    @[Crystalizer::Field(size: 6)]
+    @a = "Short"
+  end
+
   struct StringGoodRange1
     @[Crystalizer::Field(size: ..20)]
     @b = "Long description"
@@ -56,11 +71,6 @@ module ByteFormatTest
   struct StringGoodRange9
     @[Crystalizer::Field(size: 10...17)]
     @b = "Long description"
-  end
-
-  struct StringGoodSize
-    @[Crystalizer::Field(size: 5)]
-    @a = "Short"
   end
 
   struct StringBadRange1
@@ -194,12 +204,37 @@ describe Crystalizer::ByteFormat do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange4)
     end
 
-    # Bytes corresponding to `@a = "Short"`
-    # TODO -- this should not have \0 at the end - update serializer
-    bytes = Bytes[83, 104, 111, 114, 116, 0]
-
+    # Bytes corresponding to `@a = "Short"`, no \0 at the end
+    bytes = Bytes[83, 104, 111, 114, 116]
     assert_byte_format_serialization(ByteFormatTest::StringGoodSize.new, bytes)
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not expected, expected: 4, have: 5" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadSize1.new)
+    end
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not expected, expected: 6, have: 5" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadSize2.new)
+    end
 
+    bytes = Bytes[83, 104, 111, 114, 116, 0]
+    # Serialization
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6.. (have: 5)" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadRange1.new)
+    end
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: ..4 (have: 5)" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadRange2.new)
+    end
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6..8 (have: 5)" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadRange3.new)
+    end
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6... (have: 5)" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadRange5.new)
+    end
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: ...4 (have: 5)" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadRange6.new)
+    end
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6...8 (have: 5)" do
+      Crystalizer::ByteFormat.serialize(ByteFormatTest::StringBadRange7.new)
+    end
+    # Deserialization
     expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6.." do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange1)
     end

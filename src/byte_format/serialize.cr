@@ -39,30 +39,51 @@ struct Crystalizer::ByteFormat
   end
 
   # Serializes a `String` to bytes, written to the `io`, and add a trailing `string_delimiter`.
-  def serialize(string : Path | String | Symbol)
+  def serialize(string : Path | String | Symbol, add_delimiter = true)
     string.to_s @io
-    if string_delimiter = @string_delimiter
+    if add_delimiter && (string_delimiter = @string_delimiter)
       @io << string_delimiter
     end
   end
 
   def serialize(string : String, size : Int)
-    if string.size < size
-      serialize string
-    else
-      raise Error.new "String too long (max size: #{size})"
+    if string.bytesize != size
+      raise Error.new "String size not expected, expected: #{size}, have: #{string.bytesize}"
     end
+    serialize string, add_delimiter: false
   end
 
-  private def de_unionize(object : U) forall U
+  def serialize(string : String, size : Range)
+    max_size = size.end
+    if max_size && ((excludes_end = size.excludes_end?) ? string.size >= max_size : string.size > max_size)
+      raise Error.new "String size not in range: #{size} (have: #{string.bytesize})"
+    end
+    if (min_size = size.begin) && string.size < min_size
+      raise Error.new "String size not in range: #{size} (have: #{string.bytesize})"
+    end
+    serialize string, add_delimiter: true
+  end
+
+  private def de_unionize(object : U, variable : Variable) forall U
     {% for u in U.union_types %}
-      return serialize object if object.is_a? {{u}}
+      if object.is_a? {{u}}
+        return case variable_type = variable.type
+        when String.class
+          if size = variable.annotations.try &.[:size]
+            serialize object, size: size
+          else
+            serialize object
+          end
+        else
+          serialize object
+        end
+      end
     {% end %}
   end
 
   def serialize(object : O) forall O
-    Crystalizer.each_ivar(object) do |_, value|
-      de_unionize value
+    Crystalizer.each_ivar(object) do |_, value, var|
+      de_unionize value, var
     end
   end
 end
