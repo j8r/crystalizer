@@ -67,7 +67,11 @@ struct Crystalizer::ByteFormat
   end
 
   def deserialize(to type : Number::Primitive.class)
-    @io.read_bytes type, @format
+    begin
+      @io.read_bytes type, @format
+    rescue e
+      raise Error.new e.message
+    end
   end
 
   def deserialize(to type : Path.class)
@@ -86,23 +90,26 @@ struct Crystalizer::ByteFormat
   # :ditto:
   def deserialize(to type : String.class, size : Range)
     str = if max_size = size.end
-      @io.gets(@string_delimiter.not_nil!, max_size, true) || ""
+      # An alternative to reading limit `max_size + 1` would be to read `max_size` or `max_size - 1`
+      # (depending on `size.excludes_end?`), then peek the next char for '\0' and either consume it
+      # (if it is '\0') or set a flag for string being out of bounds.
+      @io.gets(@string_delimiter.not_nil!, max_size + 1, true) || ""
     else
       deserialize type
     end
 
-    if max_size && ((excludes_end = size.excludes_end?) ? str.size >= max_size - 1 : str.size == max_size)
-      raise Error.new "String too long (size is not #{excludes_end ? "<" : "<="} #{max_size})"
+    if max_size && ((excludes_end = size.excludes_end?) ? str.size >= max_size : str.size > max_size)
+      raise Error.new "String size not in range: #{size}"
     end
 
     if (min_size = size.begin) && str.size < min_size
-      raise Error.new "String too short (size is not >= #{min_size})"
+      raise Error.new "String size not in range: #{size}"
     end
 
     str
   end
 
-  # :ditto:
+  # Deserializes a `String` from reading from the `io`. String is exactly `size` bytes with no trailing '\0'.
   def deserialize(to type : String.class, size : Int)
     @io.read_string size
   end

@@ -37,6 +37,18 @@ module ByteFormatTest
     @[Crystalizer::Field(size: 10...20)]
     @b = "Long description"
   end
+  struct StringGoodRange7
+    @[Crystalizer::Field(size: 16...20)]
+    @b = "Long description"
+  end
+  struct StringGoodRange8
+    @[Crystalizer::Field(size: 10..16)]
+    @b = "Long description"
+  end
+  struct StringGoodRange9
+    @[Crystalizer::Field(size: 10...17)]
+    @b = "Long description"
+  end
 
   struct StringGoodSize
     @[Crystalizer::Field(size: 5)]
@@ -48,7 +60,7 @@ module ByteFormatTest
     @a = "Short"
   end
   struct StringBadRange2
-    @[Crystalizer::Field(size: ..3)]
+    @[Crystalizer::Field(size: ..4)]
     @a = "Short"
   end
   struct StringBadRange3
@@ -64,7 +76,7 @@ module ByteFormatTest
     @a = "Short"
   end
   struct StringBadRange6
-    @[Crystalizer::Field(size: ...3)]
+    @[Crystalizer::Field(size: ...4)]
     @a = "Short"
   end
   struct StringBadRange7
@@ -160,8 +172,11 @@ describe Crystalizer::ByteFormat do
     assert_byte_format_serialization(ByteFormatTest::StringGoodRange4.new, bytes)
     assert_byte_format_serialization(ByteFormatTest::StringGoodRange5.new, bytes)
     assert_byte_format_serialization(ByteFormatTest::StringGoodRange6.new, bytes)
+    assert_byte_format_serialization(ByteFormatTest::StringGoodRange7.new, bytes)
+    assert_byte_format_serialization(ByteFormatTest::StringGoodRange8.new, bytes)
+    assert_byte_format_serialization(ByteFormatTest::StringGoodRange9.new, bytes)
 
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too long (size is not <= 8)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6..8" do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange4)
     end
 
@@ -171,22 +186,22 @@ describe Crystalizer::ByteFormat do
 
     assert_byte_format_serialization(ByteFormatTest::StringGoodSize.new, bytes)
 
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too short (size is not >= 6)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6.." do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange1)
     end
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too long (size is not <= 3)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: ..4" do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange2)
     end
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too short (size is not >= 6)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6..8" do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange3)
     end
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too short (size is not >= 6)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6.." do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange5)
     end
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too long (size is not < 3)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: ...4" do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange6)
     end
-    expect_raises Crystalizer::ByteFormat::Error, message: "String too short (size is not >= 6)" do
+    expect_raises Crystalizer::ByteFormat::Error, message: "String size not in range: 6...8" do
       Crystalizer::ByteFormat.deserialize(bytes, to: ByteFormatTest::StringBadRange7)
     end
   end
