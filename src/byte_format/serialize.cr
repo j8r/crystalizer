@@ -46,11 +46,11 @@ struct Crystalizer::ByteFormat
     end
   end
 
-  def serialize(string : String, max_size : Int)
-    if string.size < max_size
+  def serialize(string : String, size : Int)
+    if string.size < size
       serialize string
     else
-      raise Error.new "String too long (max size: #{max_size})"
+      raise Error.new "String too long (max size: #{size})"
     end
   end
 

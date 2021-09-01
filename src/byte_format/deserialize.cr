@@ -84,8 +84,27 @@ struct Crystalizer::ByteFormat
   end
 
   # :ditto:
-  def deserialize(to type : String.class, max_size : Int)
-    @io.gets(@string_delimiter.not_nil!, max_size, true) || ""
+  def deserialize(to type : String.class, size : Range)
+    str = if max_size = size.end
+      @io.gets(@string_delimiter.not_nil!, max_size, true) || ""
+    else
+      deserialize type
+    end
+
+    if max_size && ((excludes_end = size.excludes_end?) ? str.size >= max_size - 1 : str.size == max_size)
+      raise Error.new "String too long (size is not #{excludes_end ? "<" : "<="} #{max_size})"
+    end
+
+    if (min_size = size.begin) && str.size < min_size
+      raise Error.new "String too short (size is not >= #{min_size})"
+    end
+
+    str
+  end
+
+  # :ditto:
+  def deserialize(to type : String.class, size : Int)
+    @io.read_string size
   end
 
   def deserialize(to type : Tuple.class)
@@ -102,12 +121,8 @@ struct Crystalizer::ByteFormat
       deserializer.set_each_ivar do |variable|
         case variable_type = variable.type
         when String.class
-          if max_size = variable.annotations.try &.[:max_size]
-            str = deserialize variable_type, max_size: max_size
-            if str.size == max_size
-              raise Error.new "String too long (max size: #{max_size})"
-            end
-            str
+          if size = variable.annotations.try &.[:size]
+            deserialize variable_type, size: size
           else
             deserialize variable_type
           end
