@@ -88,7 +88,7 @@ struct Crystalizer::ByteFormat
   end
 
   # :ditto:
-  def deserialize(to type : String.class, size : Range(Int, Int))
+  def deserialize(to type : String.class, size : Range(Int32?, Int32?))
     string = if max_size = size.end
                # An alternative to reading limit `max_size + 1` would be to read `max_size` or `max_size - 1`
                # (depending on `size.excludes_end?`), then peek the next char for `@string_delimiter`, and
