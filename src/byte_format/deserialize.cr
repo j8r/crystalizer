@@ -93,7 +93,7 @@ struct Crystalizer::ByteFormat
                # An alternative to reading limit `max_size + 1` would be to read `max_size` or `max_size - 1`
                # (depending on `size.excludes_end?`), then peek the next char for '\0' and either consume it
                # (if it is '\0') or set a flag for string being out of bounds.
-               @io.gets(@string_delimiter.not_nil!, max_size + 1, true) || ""
+               @io.gets(@string_delimiter.as(Char), max_size + 1, true) || ""
              else
                deserialize type
              end
