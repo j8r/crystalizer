@@ -188,7 +188,7 @@ describe Crystalizer::ByteFormat do
     describe "(de)serialization" do
       assert_byte_format_serialization("abc", Bytes[97, 98, 99, 0])
 
-      # Bytes corresponding to `@a = "Long description"`
+      # Bytes corresponding to `@a = "Long description\0"`
       bytes = Bytes[76, 111, 110, 103, 32, 100, 101, 115, 99, 114, 105, 112, 116, 105, 111, 110, 0]
       assert_byte_format_serialization(ByteFormatTest::StringGoodRange1.new, bytes)
       assert_byte_format_serialization(ByteFormatTest::StringGoodRange2.new, bytes)
@@ -200,6 +200,7 @@ describe Crystalizer::ByteFormat do
       assert_byte_format_serialization(ByteFormatTest::StringGoodRange8.new, bytes)
       assert_byte_format_serialization(ByteFormatTest::StringGoodRange9.new, bytes)
 
+      # Bytes corresponding to `@a = "Short"`
       bytes = Bytes[83, 104, 111, 114, 116]
       assert_byte_format_serialization(ByteFormatTest::StringGoodSize.new, bytes)
       assert_byte_format_serialization(ByteFormatTest::StringGoodSize.new, bytes)
