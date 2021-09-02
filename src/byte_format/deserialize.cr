@@ -94,11 +94,7 @@ struct Crystalizer::ByteFormat
                deserialize type
              end
 
-    if max_size && ((excludes_end = size.excludes_end?) ? string.size >= max_size : string.size > max_size)
-      raise Error.new "String size not in range: #{size}"
-    end
-
-    if (min_size = size.begin) && string.size < min_size
+    unless size.includes? string.size
       raise Error.new "String size not in range: #{size}"
     end
 
