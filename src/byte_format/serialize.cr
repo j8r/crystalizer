@@ -39,22 +39,47 @@ struct Crystalizer::ByteFormat
   end
 
   # Serializes a `String` to bytes, written to the `io`, and add a trailing `string_delimiter`.
-  def serialize(string : Path | String | Symbol)
+  def serialize(string : Path | String | Symbol, add_delimiter : Bool = true)
     string.to_s @io
-    if string_delimiter = @string_delimiter
+    if add_delimiter && (string_delimiter = @string_delimiter)
       @io << string_delimiter
     end
   end
 
-  private def de_unionize(object : U) forall U
+  def serialize(string : String, bytesize : Int)
+    if string.bytesize != bytesize
+      raise Error.new "String bytesize not expected, expected: #{bytesize}, have: #{string.bytesize}"
+    end
+    serialize string, add_delimiter: false
+  end
+
+  def serialize(string : String, bytesize : Range(Int32?, Int32?))
+    unless bytesize.includes? string.bytesize
+      raise Error.new "String bytesize not in range: #{bytesize} (have: #{string.bytesize})"
+    end
+    serialize string, add_delimiter: true
+  end
+
+  private def de_unionize(object : U, variable : Variable) forall U
     {% for u in U.union_types %}
-      return serialize object if object.is_a? {{u}}
+      if object.is_a? {{u}}
+        return case variable_type = variable.type
+        when String.class
+          if bytesize = variable.annotations.try &.[:bytesize]
+            serialize object, bytesize: bytesize
+          else
+            serialize object
+          end
+        else
+          serialize object
+        end
+      end
     {% end %}
   end
 
   def serialize(object : O) forall O
-    Crystalizer.each_ivar(object) do |_, value|
-      de_unionize value
+    Crystalizer.each_ivar(object) do |_, value, var|
+      de_unionize value, var
     end
   end
 end
