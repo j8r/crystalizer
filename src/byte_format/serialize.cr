@@ -54,8 +54,8 @@ struct Crystalizer::ByteFormat
   end
 
   def serialize(string : String, size : Range(Int32?, Int32?))
-    unless size.includes? string.size
-      raise Error.new "String size not in range: #{size} (have: #{string.size})"
+    unless size.includes? string.bytesize
+      raise Error.new "String size not in range: #{size} (have: #{string.bytesize})"
     end
     serialize string, add_delimiter: true
   end

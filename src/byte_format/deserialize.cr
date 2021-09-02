@@ -94,7 +94,7 @@ struct Crystalizer::ByteFormat
                deserialize type
              end
 
-    unless size.includes? string.size
+    unless size.includes? string.bytesize
       raise Error.new "String size not in range: #{size}"
     end
 
