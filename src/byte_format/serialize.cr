@@ -46,16 +46,16 @@ struct Crystalizer::ByteFormat
     end
   end
 
-  def serialize(string : String, size : Int)
-    if string.bytesize != size
-      raise Error.new "String size not expected, expected: #{size}, have: #{string.bytesize}"
+  def serialize(string : String, bytesize : Int)
+    if string.bytesize != bytesize
+      raise Error.new "String bytesize not expected, expected: #{bytesize}, have: #{string.bytesize}"
     end
     serialize string, add_delimiter: false
   end
 
-  def serialize(string : String, size : Range(Int32?, Int32?))
-    unless size.includes? string.bytesize
-      raise Error.new "String size not in range: #{size} (have: #{string.bytesize})"
+  def serialize(string : String, bytesize : Range(Int32?, Int32?))
+    unless bytesize.includes? string.bytesize
+      raise Error.new "String bytesize not in range: #{bytesize} (have: #{string.bytesize})"
     end
     serialize string, add_delimiter: true
   end
@@ -65,8 +65,8 @@ struct Crystalizer::ByteFormat
       if object.is_a? {{u}}
         return case variable_type = variable.type
         when String.class
-          if size = variable.annotations.try &.[:size]
-            serialize object, size: size
+          if bytesize = variable.annotations.try &.[:bytesize]
+            serialize object, bytesize: bytesize
           else
             serialize object
           end

@@ -71,7 +71,7 @@ struct Crystalizer::ByteFormat
   end
 
   def deserialize(to type : Path.class)
-    Path.new deserialize(String, size)
+    Path.new deserialize(String, bytesize)
   end
 
   # Deserializes a `String` from reading from the `io`, delimited by a trailing `string_delimiter`.
@@ -84,26 +84,27 @@ struct Crystalizer::ByteFormat
   end
 
   # :ditto:
-  def deserialize(to type : String.class, size : Range(Int32?, Int32?))
-    string = if max_size = size.end
-               # An alternative to reading limit `max_size + 1` would be to read `max_size` or `max_size - 1`
-               # (depending on `size.excludes_end?`), then peek the next char for `@string_delimiter`, and
-               # then consume it (if it is a valid delimiter) or set a flag for string being out of bounds.
-               @io.gets(@string_delimiter.as(Char), max_size + 1, true) || ""
+  def deserialize(to type : String.class, bytesize : Range(Int32?, Int32?))
+    string = if max_bytesize = bytesize.end
+               # An alternative to reading limit `max_bytesize + 1` would be to read `max_bytesize` or
+               # `max_bytesize - 1` (depending on `size.excludes_end?`), then peek the next char for
+               # `@string_delimiter`, and then consume it (if it is a valid delimiter) or set a flag
+               # for string being out of bounds.
+               @io.gets(@string_delimiter.as(Char), max_bytesize + 1, true) || ""
              else
                deserialize type
              end
 
-    unless size.includes? string.bytesize
-      raise Error.new "String size not in range: #{size}"
+    unless bytesize.includes? string.bytesize
+      raise Error.new "String bytesize not in range: #{bytesize}"
     end
 
     string
   end
 
-  # Deserializes a `String` from reading from the `io`. String is exactly `size` bytes with no trailing `@string_delimiter`.
-  def deserialize(to type : String.class, size : Int)
-    @io.read_string size
+  # Deserializes a `String` from reading from the `io`. String is exactly `bytesize` bytes with no trailing `@string_delimiter`.
+  def deserialize(to type : String.class, bytesize : Int)
+    @io.read_string bytesize
   end
 
   def deserialize(to type : Tuple.class)
@@ -120,8 +121,8 @@ struct Crystalizer::ByteFormat
       deserializer.set_each_ivar do |variable|
         case variable_type = variable.type
         when String.class
-          if size = variable.annotations.try &.[:size]
-            deserialize variable_type, size: size
+          if bytesize = variable.annotations.try &.[:bytesize]
+            deserialize variable_type, bytesize: bytesize
           else
             deserialize variable_type
           end
