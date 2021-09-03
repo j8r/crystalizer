@@ -119,13 +119,8 @@ struct Crystalizer::ByteFormat
     {% else %}
       deserializer = Deserializer::NonSelfDescribingObject.new type
       deserializer.set_each_ivar do |variable|
-        case variable_type = variable.type
-        when String.class
-          if bytesize = variable.annotations.try &.[:bytesize]
-            deserialize variable_type, bytesize: bytesize
-          else
-            deserialize variable_type
-          end
+        if (variable_type = variable.type).is_a?(String.class) && (bytesize = variable.annotations.try &.[:bytesize])
+          deserialize variable_type, bytesize: bytesize
         else
           deserialize variable_type
         end

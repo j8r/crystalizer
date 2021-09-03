@@ -61,18 +61,11 @@ struct Crystalizer::ByteFormat
   end
 
   private def de_unionize(object : U, variable : Variable) forall U
-    {% for u in U.union_types %}
-      if object.is_a? {{u}}
-        return case variable_type = variable.type
-        when String.class
-          if bytesize = variable.annotations.try &.[:bytesize]
-            serialize object, bytesize: bytesize
-          else
-            serialize object
-          end
-        else
-          serialize object
-        end
+    {% for type in U.union_types %}
+      if object.is_a?(String) && (bytesize = variable.annotations.try &.[:bytesize])
+        return serialize object, bytesize: bytesize
+      elsif object.is_a? {{type}}
+        return serialize object
       end
     {% end %}
   end

@@ -13,6 +13,12 @@ module ByteFormatTest
     C
   end
 
+  struct PointBytesize
+    @x = 1
+    @[Crystalizer::Field(bytesize: 1)]
+    @y = "a"
+  end
+
   struct StringGoodSize
     @[Crystalizer::Field(bytesize: 5)]
     @a = "Short"
@@ -187,6 +193,11 @@ describe Crystalizer::ByteFormat do
   describe String do
     describe "(de)serialization" do
       assert_byte_format_serialization("abc", Bytes[97, 98, 99, 0])
+
+      assert_byte_format_serialization(
+        ByteFormatTest::PointBytesize.new,
+        Bytes[1, 0, 0, 0, 97]
+      )
 
       # Bytes corresponding to `@a = "Long description\0"`
       bytes = Bytes[76, 111, 110, 103, 32, 100, 101, 115, 99, 114, 105, 112, 116, 105, 111, 110, 0]
