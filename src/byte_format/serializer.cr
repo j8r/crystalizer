@@ -1,4 +1,10 @@
 struct Crystalizer::ByteFormat
+  include Crystalizer::Serializer
+
+  def self.serializer(io : IO, & : self ->) : Nil
+    yield new(io)
+  end
+
   def self.serialize(object) : Bytes
     io = IO::Memory.new
     new(io).serialize object

@@ -1,4 +1,4 @@
-struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
+struct Crystalizer::Deserializer::NamedTupleObject(U, NT, N)
   class Error < Exception
   end
 
@@ -11,7 +11,7 @@ struct Crystalizer::Deserializer::NamedTuple(U, NT, N)
   private def self.internal_new(type : NT.class)
     {% begin %}
     {% types = NT.keys.map { |k| NT[k] }; types << Nil %}
-    Deserializer::NamedTuple({{ types.join(" | ").id }}, NT, {{NT.size}}).new
+    Deserializer::NamedTupleObject({{ types.join(" | ").id }}, NT, {{NT.size}}).new
     {% end %}
   end
 

@@ -1,3 +1,5 @@
+require "./format"
+
 # Byte format, as implemented in the stdlib: https://crystal-lang.org/api/master/IO/ByteFormat.html.
 #
 # Important note: bytes representation of dynamic data structures like `Array` and `Hash` have no end delimiter.
@@ -5,10 +7,14 @@
 #
 # Unions are also not supported.
 struct Crystalizer::ByteFormat
+  extend Format
+
   class Error < Exception
   end
 
   getter io : IO
+  property format : IO::ByteFormat
+  property string_delimiter
 
   # Byte to delimit the end of a `String`.
   class_property string_delimiter : Char? = '\0'
@@ -24,4 +30,5 @@ end
 require "./crystalizer"
 require "./deserializer"
 require "./deserializer/non_self_describing_object"
+require "./serializer"
 require "./byte_format/*"
