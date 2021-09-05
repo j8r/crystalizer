@@ -1,4 +1,10 @@
 struct Crystalizer::ByteFormat
+  include Crystalizer::Deserializer
+
+  def self.deserializer(object) : self
+    new object
+  end
+
   def self.deserialize(bytes : Bytes, to type : T.class) : T forall T
     new(IO::Memory.new(bytes)).deserialize to: type
   end
@@ -55,7 +61,7 @@ struct Crystalizer::ByteFormat
   end
 
   def deserialize(to type : NamedTuple.class)
-    deserializer = Deserializer::NamedTuple.new type
+    deserializer = Deserializer::NamedTupleObject.new type
 
     deserializer.size.times do
       str = deserialize String
