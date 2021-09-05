@@ -1,10 +1,6 @@
 struct Crystalizer::ByteFormat
   include Crystalizer::Deserializer
 
-  def self.deserializer(object) : self
-    new object
-  end
-
   def self.deserialize(bytes : Bytes, to type : T.class) : T forall T
     new(IO::Memory.new(bytes)).deserialize to: type
   end

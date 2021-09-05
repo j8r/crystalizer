@@ -1,4 +1,6 @@
 require "../src/field.cr"
+require "../src/type"
+require "../src/format"
 
 struct Point
   getter x : Int32
@@ -55,3 +57,23 @@ enum Other
 end
 
 record ObjWithEnum, i = 1_u8, enu1 = Enu::A, other = Other::B
+
+struct TestCustomTypeSerialization
+  include Crystalizer::Type
+
+  def initialize(@i : Int32 = 1)
+  end
+
+  def self.deserialize(deserializer : Crystalizer::Deserializer)
+    new deserializer.deserialize to: Int32
+  end
+
+  def serialize(serializer : Crystalizer::Serializer) : Nil
+    serializer.serialize @i
+  end
+end
+
+struct CustomSub
+  @str = "abc"
+  @custom = TestCustomTypeSerialization.new
+end

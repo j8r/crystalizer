@@ -91,4 +91,22 @@ describe Crystalizer::JSON do
   describe "compiles when an object has two enum ivars" do
     assert_json_serialization ObjWithEnum.new, %({"i":1,"enu1":0,"other":1})
   end
+
+  describe Crystalizer::Type do
+    it "serializes a custom type" do
+      Crystalizer::JSON.serialize(TestCustomTypeSerialization.new 3).should eq "3"
+    end
+
+    it "deserializes a custom type" do
+      Crystalizer::JSON.deserialize("3", to: TestCustomTypeSerialization).should eq TestCustomTypeSerialization.new 3
+    end
+
+    it "serializes a type with a custom one inside" do
+      Crystalizer::JSON.serialize(CustomSub.new).should eq %({\n  "str": "abc",\n  "custom": 1\n})
+    end
+
+    it "deserializes a type with a custom one inside" do
+      Crystalizer::JSON.deserialize(%({\n  "str": "abc",\n  "custom": 1\n}), to: CustomSub).should eq CustomSub.new
+    end
+  end
 end

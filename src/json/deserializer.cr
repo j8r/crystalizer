@@ -1,8 +1,4 @@
 module Crystalizer::JSON
-  def self.deserializer(object) : Deserializer
-    Deserializer.new object
-  end
-
   def self.deserialize(string_or_io : IO | String, to type : T.class) : T forall T
     Deserializer.new(string_or_io).deserialize to: type
   end

@@ -119,6 +119,27 @@ sub:
   - 2
 ```
 
+### User-defined serialization
+
+Allows to define custom serialization and deserialization for a given type.
+
+```crystal
+struct MyType
+  include Crystalizer::Type
+
+  def initialize(@i : Int32)
+  end
+
+  def self.deserialize(deserializer : Crystalizer::Deserializer)
+    new deserializer.deserialize to: Int32
+  end
+
+  def serialize(serializer : Crystalizer::Serializer) : Nil
+    serializer.serialize @i
+  end
+end
+```
+
 ### Note
 
 Annotations are similar to the stdlib's `Serializable`, but all features are not yet fully implemented.

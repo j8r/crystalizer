@@ -1,10 +1,4 @@
 module Crystalizer::JSON
-  def self.serializer(io : IO, & : Serializer ->) : Nil
-    Serializer.new(io) do |serializer|
-      yield serializer
-    end
-  end
-
   def self.serialize(io : IO, object : O, *, indent : String = "  ") : Nil forall O
     Serializer.new io do |serializer|
       serializer.indent = indent

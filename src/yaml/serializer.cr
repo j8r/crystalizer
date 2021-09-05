@@ -1,10 +1,4 @@
 module Crystalizer::YAML
-  def self.serializer(io : IO, & : Serializer ->) : Nil
-    Serializer.new(io) do |serializer|
-      yield serializer
-    end
-  end
-
   def self.serialize(object) : String
     String.build do |str|
       serialize str, object
