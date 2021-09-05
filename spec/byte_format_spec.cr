@@ -281,4 +281,22 @@ describe Crystalizer::ByteFormat do
   describe "compiles when an object has two enum ivars" do
     assert_byte_format_serialization(ObjWithEnum.new, Bytes[1, 0, 0, 0, 0, 1, 0, 0, 0])
   end
+
+  describe Crystalizer::Type do
+    it "serializes a custom type" do
+      Crystalizer::ByteFormat.serialize(TestCustomTypeSerialization.new 3).should eq Bytes[3, 0, 0, 0]
+    end
+
+    it "deserializes a custom type" do
+      Crystalizer::ByteFormat.deserialize(Bytes[3, 0, 0, 0], to: TestCustomTypeSerialization).should eq TestCustomTypeSerialization.new 3
+    end
+
+    it "serializes a type with a custom one inside" do
+      Crystalizer::ByteFormat.serialize(CustomSub.new).should eq Bytes[97, 98, 99, 0, 1, 0, 0, 0]
+    end
+
+    it "deserializes a type with a custom one inside" do
+      Crystalizer::ByteFormat.deserialize(Bytes[97, 98, 99, 0, 1, 0, 0, 0], to: CustomSub).should eq CustomSub.new
+    end
+  end
 end

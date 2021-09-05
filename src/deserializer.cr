@@ -1,6 +1,12 @@
-# Derializer interface
+# Deserializer interface to be extended.
 module Crystalizer::Deserializer
   abstract def deserialize(to type : T.class) forall T
+
+  macro included
+    def deserialize(to type : Crystalizer::Type.class)
+      type.deserialize self
+    end
+  end
 end
 
 require "./field"

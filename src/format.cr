@@ -1,5 +1,5 @@
 # Format interface
 module Crystalizer::Format
-  abstract def serializer(io : IO, & : Crystalizer::Serializer ->) : Nil
-  abstract def deserializer(object) : Crystalizer::Deserializer
+  abstract def serialize(io : IO)
+  abstract def deserialize(io : IO, to type : T.class) forall T
 end

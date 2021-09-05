@@ -160,4 +160,22 @@ describe Crystalizer::YAML do
   describe "compiles when an object has two enum ivars" do
     assert_yaml_serialization ObjWithEnum.new, "---\ni: 1\nenu1: 0\nother: 1\n"
   end
+
+  describe Crystalizer::Type do
+    it "serializes a custom type" do
+      Crystalizer::YAML.serialize(TestCustomTypeSerialization.new 3).should eq "--- 3\n"
+    end
+
+    it "deserializes a custom type" do
+      Crystalizer::YAML.deserialize("3", to: TestCustomTypeSerialization).should eq TestCustomTypeSerialization.new 3
+    end
+
+    it "serializes a type with a custom one inside" do
+      Crystalizer::YAML.serialize(CustomSub.new).should eq "---\nstr: abc\ncustom: 1\n"
+    end
+
+    it "deserializes a type with a custom one inside" do
+      Crystalizer::YAML.deserialize("---\nstr: abc\ncustom: 1\n", to: CustomSub).should eq CustomSub.new
+    end
+  end
 end
