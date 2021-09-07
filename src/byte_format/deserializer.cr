@@ -118,6 +118,8 @@ struct Crystalizer::ByteFormat
   def deserialize(to type : T.class) : T forall T
     {% if T.union_types.size > 1 %}
       {% raise "Crystalizer::ByteFormat does not support unions; the protocol requires unambiguous field types." %}
+    {% elsif T < Array || T < Deque || T < Set || T < Hash %}
+      deserialize type
     {% else %}
       deserializer = Deserializer::NonSelfDescribingObject.new type
       deserializer.set_each_ivar do |variable|

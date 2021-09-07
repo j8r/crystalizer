@@ -195,6 +195,8 @@ module Crystalizer::JSON
     def deserialize(to type : T.class) : T forall T
       {% if T.union_types.size > 1 %}
         deserialize_union type
+      {% elsif T < Array || T < Deque || T < Set || T < Hash %}
+        deserialize type
       {% else %}
         deserializer = Crystalizer::Deserializer::SelfDescribingObject.new type
         @pull.read_begin_object

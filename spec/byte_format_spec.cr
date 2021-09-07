@@ -1,5 +1,6 @@
 require "spec"
 require "../src/byte_format"
+require "./format_helper"
 
 module ByteFormatTest
   struct Point

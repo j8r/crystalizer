@@ -29,6 +29,7 @@ describe Crystalizer::YAML do
     obj = Obj.new ["a", "b"]
     yaml_obj = <<-E
     ---
+    one: 1
     ary:
     - a
     - b
