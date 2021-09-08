@@ -47,7 +47,7 @@ describe Crystalizer::JSON do
   end
 
   describe Enum do
-    assert_json_serialization(Enu::A, "0")
+    assert_json_serialization(Enu::A, %("a"))
   end
 
   describe NamedTuple do
@@ -89,7 +89,7 @@ describe Crystalizer::JSON do
   end
 
   describe "compiles when an object has two enum ivars" do
-    assert_json_serialization ObjWithEnum.new, %({"i":1,"enu1":0,"other":1})
+    assert_json_serialization ObjWithEnum.new, %({"i":1,"enu1":"a","other":["b"]})
   end
 
   describe Crystalizer::Type do

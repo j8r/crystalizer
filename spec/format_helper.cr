@@ -53,6 +53,7 @@ enum Enu
   B
 end
 
+@[Flags]
 enum Other
   A
   B

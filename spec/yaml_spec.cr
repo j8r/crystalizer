@@ -97,7 +97,7 @@ describe Crystalizer::YAML do
   end
 
   describe Enum do
-    assert_yaml_serialization(Enu::A, "--- 0\n")
+    assert_yaml_serialization(Enu::A, "--- a\n")
   end
 
   describe NamedTuple do
@@ -161,7 +161,7 @@ describe Crystalizer::YAML do
   end
 
   describe "compiles when an object has two enum ivars" do
-    assert_yaml_serialization ObjWithEnum.new, "---\ni: 1\nenu1: 0\nother: 1\n"
+    assert_yaml_serialization ObjWithEnum.new, "---\ni: 1\nenu1: a\nother: [b]\n"
   end
 
   describe Crystalizer::Type do

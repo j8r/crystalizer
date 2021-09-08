@@ -77,7 +77,19 @@ module Crystalizer::YAML
     end
 
     def serialize(object : Enum)
-      @builder.scalar object.value
+      serialize_enum object
+    end
+
+    private def serialize_enum(object : E) forall E
+      {% if E.annotation(Flags) %}
+        @builder.sequence(style: :flow) do
+          object.each do |member, _value|
+            serialize member.to_s.underscore
+          end
+        end
+      {% else %}
+        serialize object.to_s.underscore
+      {% end %}
     end
 
     def serialize(null : Nil)
