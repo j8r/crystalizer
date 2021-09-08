@@ -12,7 +12,8 @@ struct Point
 end
 
 class Obj
-  getter one : Int32 = 1
+  @one : Int32 = 1
+  @ary0 : Array(Int32) = [0]
   getter ary
 
   def initialize(@ary : Array(String))

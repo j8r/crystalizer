@@ -43,7 +43,8 @@ module Crystalizer::JSON
       hash
     end
 
-    def deserialize(to type : Array.class | Deque.class | Set.class)
+    # def deserialize(to type : Array(T).class | Deque(T).class | Set(T).class) forall T
+    def deserialize(to type : Array(T).class | Deque(T).class | Set(T).class) forall T
       array = type.new
       value_class = typeof(array.first)
       @pull.read_array do
@@ -205,10 +206,10 @@ module Crystalizer::JSON
           deserializer.set_ivar key do |variable|
             if variable.nilable || variable.has_default
               @pull.read_null_or do
-                deserialize variable.type
+                de_unionize variable.type
               end
             else
-              deserialize variable.type
+              de_unionize variable.type
             end
           end
         end

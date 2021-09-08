@@ -30,6 +30,8 @@ describe Crystalizer::YAML do
     yaml_obj = <<-E
     ---
     one: 1
+    ary0:
+    - 0
     ary:
     - a
     - b

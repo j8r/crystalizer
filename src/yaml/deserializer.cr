@@ -181,7 +181,7 @@ module Crystalizer::YAML
       end
     end
 
-    private def deserialize_union(type : T.class) forall T
+    protected def deserialize_union(type : T.class) forall T
       node = @node
       if node.is_a? ::YAML::Nodes::Alias
         {% for type in T.union_types %}
@@ -240,10 +240,10 @@ module Crystalizer::YAML
             deserializer.set_ivar key do |variable|
               if variable.nilable || variable.has_default
                 ::YAML::Schema::Core.parse_null_or(value_node) do
-                  new(value_node).deserialize variable.type
+                  new(value_node).de_unionize variable.type
                 end
               else
-                new(value_node).deserialize variable.type
+                new(value_node).de_unionize variable.type
               end
             end
           end
