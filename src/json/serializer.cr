@@ -1,12 +1,12 @@
 module Crystalizer::JSON
-  def self.serialize(io : IO, object : O, *, indent : String = "  ") : Nil forall O
+  def self.serialize(io : IO, object : O, *, indent : String = Serializer.indent) : Nil forall O
     Serializer.new io do |serializer|
       serializer.indent = indent
       serializer.serialize object
     end
   end
 
-  def self.serialize(object, *, indent : String = "  ") : String
+  def self.serialize(object, *, indent : String = Serializer.indent) : String
     String.build do |str|
       serialize str, object, indent: indent
     end
@@ -18,7 +18,6 @@ module Crystalizer::JSON
     class_property indent : String = "  "
 
     def initialize(@builder : ::JSON::Builder)
-      @builder.indent = @@indent
     end
 
     def self.new(io : IO, & : Serializer ->) : Nil
