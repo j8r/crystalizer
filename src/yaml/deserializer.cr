@@ -138,17 +138,28 @@ module Crystalizer::YAML
     end
 
     def deserialize(to type : Enum.class)
-      node = @node
-      if !node.is_a? ::YAML::Nodes::Scalar
-        node.raise "Expected scalar, not #{node.class}"
-      end
+      deserialize_enum type
+    end
 
-      string = node.value
-      if value = string.to_i64?
-        type.from_value value
-      else
-        type.parse string
-      end
+    private def deserialize_enum(to type : E.class) forall E
+      node = @node
+      {% if E.annotation(Flags) %}
+        if node.is_a? ::YAML::Nodes::Sequence
+          value = {{ E }}::None
+          node.each do |element|
+            string = new(element).deserialize String
+
+            value |= type.parse?(string) || element.raise "Unknown enum #{type} value: #{string.inspect}"
+          end
+
+          value
+        else
+          node.raise "Expected sequence, not #{node.kind}"
+        end
+      {% else %}
+        string = deserialize String
+        type.parse?(string) || node.raise "Unknown enum #{type} value: #{string.inspect}"
+      {% end %}
     end
 
     def deserialize(to type : Bool.class | Nil.class | Time.class | Slice(UInt8).class)

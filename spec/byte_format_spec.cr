@@ -280,7 +280,7 @@ describe Crystalizer::ByteFormat do
   end
 
   describe "compiles when an object has two enum ivars" do
-    assert_byte_format_serialization(ObjWithEnum.new, Bytes[1, 0, 0, 0, 0, 1, 0, 0, 0])
+    assert_byte_format_serialization(ObjWithEnum.new, Bytes[1, 0, 0, 0, 0, 2, 0, 0, 0])
   end
 
   describe Crystalizer::Type do

@@ -87,7 +87,19 @@ module Crystalizer::JSON
     end
 
     def serialize(object : Enum)
-      @builder.number object.value
+      serialize_enum object
+    end
+
+    private def serialize_enum(object : E) forall E
+      {% if E.annotation(Flags) %}
+        @builder.array do
+          object.each do |member, _value|
+            @builder.string(member.to_s.underscore)
+          end
+        end
+      {% else %}
+        @builder.string(object.to_s.underscore)
+      {% end %}
     end
 
     def serialize(null : Nil)

@@ -43,8 +43,7 @@ module Crystalizer::JSON
       hash
     end
 
-    # def deserialize(to type : Array(T).class | Deque(T).class | Set(T).class) forall T
-    def deserialize(to type : Array(T).class | Deque(T).class | Set(T).class) forall T
+    def deserialize(to type : Array.class | Deque.class | Set.class) forall T
       array = type.new
       value_class = typeof(array.first)
       @pull.read_array do
@@ -75,14 +74,19 @@ module Crystalizer::JSON
     end
 
     def deserialize(to type : Enum.class)
-      case @pull.kind
-      when .int?
-        type.from_value(@pull.read_int)
-      when .string?
-        type.parse(@pull.read_string)
-      else
-        raise Error.new "Expecting int or string in JSON for #{type}, not #{@pull.kind}"
-      end
+      deserialize_enum type
+    end
+
+    private def deserialize_enum(to type : E.class) forall E
+      {% if E.annotation(Flags) %}
+        value = {{ E }}::None
+        @pull.read_array do
+          value |= type.parse?(@pull.read_string) || @pull.raise "Unknown enum #{type} value: #{@pull.string_value.inspect}"
+        end
+        value
+      {% else %}
+        type.parse?(@pull.read_string) || @pull.raise "Unknown enum #{type} value: #{@pull.string_value.inspect}"
+      {% end %}
     end
 
     def deserialize(to type : Bool.class)
