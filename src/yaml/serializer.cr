@@ -5,7 +5,7 @@ module Crystalizer::YAML
     end
   end
 
-  def self.serialize(io : IO, object : O) : Nil forall O
+  def self.serialize(io : IO, object) : Nil
     Serializer.new io, &.serialize object
   end
 
