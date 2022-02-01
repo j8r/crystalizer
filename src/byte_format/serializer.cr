@@ -16,7 +16,7 @@ struct Crystalizer::ByteFormat
   end
 
   def serialize(bool : Bool)
-    @io.write_byte (bool ? 1_u8 : 0_u8)
+    @io.write_byte(bool ? 1_u8 : 0_u8)
   end
 
   def serialize(bytes : Bytes)
