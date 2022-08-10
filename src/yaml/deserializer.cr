@@ -1,6 +1,12 @@
 module Crystalizer::YAML
-  def self.deserialize(string_or_io : String | IO, to type : T.class) : T forall T
-    Deserializer.new(string_or_io).deserialize to: type
+  # Deserializes a YAML document to a given type `T`.
+  def self.deserialize(io : IO, to type : T.class) : T forall T
+    Deserializer.new(io).deserialize to: type
+  end
+
+  # :ditto:
+  def self.deserialize(string : String, to type : T.class) : T forall T
+    Deserializer.new(string).deserialize to: type
   end
 
   # Deserializes a YAML document according to the core schema.

@@ -38,8 +38,8 @@ module Crystalizer::YAML
       end
     end
 
-    def serialize(any : Crystalizer::Any)
-      serialize any.raw
+    def serialize(object : Crystalizer::Any)
+      serialize object.raw
     end
 
     def serialize(object : ::YAML::Serializable)

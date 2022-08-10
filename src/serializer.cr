@@ -5,8 +5,8 @@ module Crystalizer::Serializer
   abstract def serialize(object : O) forall O
 
   macro included
-    def serialize(type : Crystalizer::Type)
-      type.serialize self
+    def serialize(object : Crystalizer::Type)
+      object.serialize self
     end
   end
 end

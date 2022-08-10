@@ -1,9 +1,15 @@
 module Crystalizer::JSON
-  def self.deserialize(string_or_io : IO | String, to type : T.class) : T forall T
-    Deserializer.new(string_or_io).deserialize to: type
+  # Deserializes a JSON document to a given type `T`.
+  def self.deserialize(io : IO, to type : T.class) : T forall T
+    Deserializer.new(io).deserialize to: type
   end
 
-  # Parses a JSON document as a JSON::Any.
+  # :ditto:
+  def self.deserialize(string : String, to type : T.class) : T forall T
+    Deserializer.new(string).deserialize to: type
+  end
+
+  # Parses a JSON document as an `Any`.
   def self.parse(string_or_io : String | IO) : Any
     deserialize string_or_io, Any
   end
