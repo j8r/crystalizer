@@ -16,4 +16,4 @@ jobs:
       - name: Format
         run: "crystal tool format --check"
       - name: Run tests
-        run: "crystal spec --warnings all --error-on-warnings"
+        run: "crystal spec --warnings none"

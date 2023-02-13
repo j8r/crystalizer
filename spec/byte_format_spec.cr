@@ -3,6 +3,14 @@ require "../src/byte_format"
 require "./format_helper"
 
 module ByteFormatTest
+  struct ComplexObject
+    @index : UInt8 = 1
+    @[Crystalizer::Field(bytesize: 1)]
+    @y = "a"
+    @key : String = "abc"
+    @value : Int8 = 2
+  end
+
   struct Point
     @x = 1
     @y = "a"
@@ -140,6 +148,10 @@ describe Crystalizer::ByteFormat do
       ByteFormatTest::Point.new,
       Bytes[1, 0, 0, 0, 97, 0]
     )
+    assert_byte_format_serialization(
+      ByteFormatTest::ComplexObject.new,
+      Bytes[1, 97, 98, 99, 0, 2, 97],
+    )
   end
 
   describe "class" do
@@ -183,7 +195,7 @@ describe Crystalizer::ByteFormat do
   end
 
   describe Int do
-    assert_byte_format_serialization(1, Bytes[1, 0, 0, 0])
+    assert_byte_format_serialization(Int32::MIN, Bytes[0, 0, 0, 128])
     assert_byte_format_serialization(1_u64, Bytes[1, 0, 0, 0, 0, 0, 0, 0])
   end
 

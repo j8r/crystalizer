@@ -115,6 +115,12 @@ struct Crystalizer::ByteFormat
     end
   end
 
+  private def de_unionize(object : U) forall U
+    {% for type in U.union_types %}
+      return deserialize object if object.is_a? {{type}}
+    {% end %}
+  end
+
   def deserialize(to type : T.class) : T forall T
     {% if T.union_types.size > 1 %}
       {% raise "Crystalizer::ByteFormat does not support unions; the protocol requires unambiguous field types." %}
@@ -124,9 +130,9 @@ struct Crystalizer::ByteFormat
       deserializer = Deserializer::NonSelfDescribingObject.new type
       deserializer.set_each_ivar do |variable|
         if (variable_type = variable.type).is_a?(String.class) && (bytesize = variable.annotations.try &.[:bytesize])
-          deserialize variable_type, bytesize: bytesize
+          deserialize String, bytesize: bytesize
         else
-          deserialize variable_type
+          de_unionize variable.type
         end
       end
       deserializer.object_instance
