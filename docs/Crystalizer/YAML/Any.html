@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 1.6.2">
+<meta name="crystal_docs.project_version" content="master">
+<meta name="crystal_docs.project_name" content="crystalizer">
+
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../js/doc.js"></script>
+
+  <meta name="repository-name" content="crystalizer">
+  <title>Crystalizer::YAML::Any - crystalizer master</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../../index.html">
+          crystalizer
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="crystalizer/Crystalizer" data-name="crystalizer">
+      <a href="../../Crystalizer.html">Crystalizer</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Any" data-name="crystalizer::any">
+      <a href="../../Crystalizer/Any.html">Any</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Any/Error" data-name="crystalizer::any::error">
+      <a href="../../Crystalizer/Any/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/ByteFormat" data-name="crystalizer::byteformat">
+      <a href="../../Crystalizer/ByteFormat.html">ByteFormat</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/ByteFormat/Error" data-name="crystalizer::byteformat::error">
+      <a href="../../Crystalizer/ByteFormat/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Deserializer" data-name="crystalizer::deserializer">
+      <a href="../../Crystalizer/Deserializer.html">Deserializer</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Deserializer/NamedTupleObject" data-name="crystalizer::deserializer::namedtupleobject(u, nt, n)">
+      <a href="../../Crystalizer/Deserializer/NamedTupleObject.html">NamedTupleObject</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/NamedTupleObject/Error" data-name="crystalizer::deserializer::namedtupleobject::error">
+      <a href="../../Crystalizer/Deserializer/NamedTupleObject/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/NonSelfDescribingObject" data-name="crystalizer::deserializer::nonselfdescribingobject(t)">
+      <a href="../../Crystalizer/Deserializer/NonSelfDescribingObject.html">NonSelfDescribingObject</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Deserializer/Object" data-name="crystalizer::deserializer::object(t)">
+      <a href="../../Crystalizer/Deserializer/Object.html">Object</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/Object/Error" data-name="crystalizer::deserializer::object::error">
+      <a href="../../Crystalizer/Deserializer/Object/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/SelfDescribingObject" data-name="crystalizer::deserializer::selfdescribingobject(t, n)">
+      <a href="../../Crystalizer/Deserializer/SelfDescribingObject.html">SelfDescribingObject</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Field" data-name="crystalizer::field">
+      <a href="../../Crystalizer/Field.html">Field</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Format" data-name="crystalizer::format">
+      <a href="../../Crystalizer/Format.html">Format</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/JSON" data-name="crystalizer::json">
+      <a href="../../Crystalizer/JSON.html">JSON</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/JSON/Any" data-name="crystalizer::json::any">
+      <a href="../../Crystalizer/JSON/Any.html">Any</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Any/Error" data-name="crystalizer::json::any::error">
+      <a href="../../Crystalizer/JSON/Any/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Any/Type" data-name="crystalizer::json::any::type">
+      <a href="../../Crystalizer/JSON/Any/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Deserializer" data-name="crystalizer::json::deserializer">
+      <a href="../../Crystalizer/JSON/Deserializer.html">Deserializer</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Error" data-name="crystalizer::json::error">
+      <a href="../../Crystalizer/JSON/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Serializer" data-name="crystalizer::json::serializer">
+      <a href="../../Crystalizer/JSON/Serializer.html">Serializer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Object" data-name="crystalizer::object">
+      <a href="../../Crystalizer/Object.html">Object</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Serializer" data-name="crystalizer::serializer">
+      <a href="../../Crystalizer/Serializer.html">Serializer</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Type" data-name="crystalizer::type">
+      <a href="../../Crystalizer/Type.html">Type</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Variable" data-name="crystalizer::variable(t, a)">
+      <a href="../../Crystalizer/Variable.html">Variable</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="crystalizer/Crystalizer/YAML" data-name="crystalizer::yaml">
+      <a href="../../Crystalizer/YAML.html">YAML</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="crystalizer/Crystalizer/YAML/Any" data-name="crystalizer::yaml::any">
+      <a href="../../Crystalizer/YAML/Any.html">Any</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Any/Error" data-name="crystalizer::yaml::any::error">
+      <a href="../../Crystalizer/YAML/Any/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Any/Type" data-name="crystalizer::yaml::any::type">
+      <a href="../../Crystalizer/YAML/Any/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Deserializer" data-name="crystalizer::yaml::deserializer">
+      <a href="../../Crystalizer/YAML/Deserializer.html">Deserializer</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Error" data-name="crystalizer::yaml::error">
+      <a href="../../Crystalizer/YAML/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Serializer" data-name="crystalizer::yaml::serializer">
+      <a href="../../Crystalizer/YAML/Serializer.html">Serializer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Crystalizer::YAML::Any
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Crystalizer/YAML/Any.html">Crystalizer::YAML::Any</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../Crystalizer/Any.html">Crystalizer::Any</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/yaml/any.cr#L1" target="_blank">
+        yaml/any.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28ctx%3A%3A%3AYAML%3A%3AParseContext%2Cnode%3A%3A%3AYAML%3A%3ANodes%3A%3ANode%29-class-method" class="signature"><strong>.new</strong>(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28raw%3AType%29-class-method" class="signature"><strong>.new</strong>(raw : Type)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#raw%3AType-instance-method" class="signature"><strong>#raw</strong> : Type</a>
+        
+          <div class="summary"><p>Returns the raw underlying value.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../../Crystalizer/Any.html">Crystalizer::Any</a></code></h3>
+  
+  
+    <a href="../../Crystalizer/Any.html#%3D%3D%28other%3AAny%29%3ABool-instance-method" class="tooltip">
+      <span>==(other : Any) : Bool</span>
+    ==</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#%5B%5D%28index%3AInt%29-instance-method" class="tooltip">
+      <span>[](index : Int)<br/>[](key)</span>
+    []</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#%5B%5D%3F%28index%3AInt%29-instance-method" class="tooltip">
+      <span>[]?(index : Int)<br/>[]?(key)</span>
+    []?</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#clone%3AAny-instance-method" class="tooltip">
+      <span>clone : Any</span>
+    clone</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#dig%28key_or_index%2C%2Asubkeys%29-instance-method" class="tooltip">
+      <span>dig(key_or_index, *subkeys)</span>
+    dig</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#dig%3F%28key%2C%2Asubkeys%29-instance-method" class="tooltip">
+      <span>dig?(key, *subkeys)</span>
+    dig?</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#dup%3AAny-instance-method" class="tooltip">
+      <span>dup : Any</span>
+    dup</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#hash%28hasher%29-instance-method" class="tooltip">
+      <span>hash(hasher)</span>
+    hash</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#raw-instance-method" class="tooltip">
+      <span>raw</span>
+    raw</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#size%3AInt-instance-method" class="tooltip">
+      <span>size : Int</span>
+    size</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#to%28type%3AT.class%29%3ATforallT-instance-method" class="tooltip">
+      <span>to(type : <span class="t">T</span>.<span class="k">class</span>) : T forall T</span>
+    to</a>, 
+    
+  
+    <a href="../../Crystalizer/Any.html#to%3F%28type%3AT.class%29forallT-instance-method" class="tooltip">
+      <span>to?(type : <span class="t">T</span>.<span class="k">class</span>) forall T</span>
+    to?</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(ctx:::YAML::ParseContext,node:::YAML::Nodes::Node)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(ctx : ::YAML::ParseContext, node : ::YAML::Nodes::Node)
+
+        <a class="method-permalink" href="#new%28ctx%3A%3A%3AYAML%3A%3AParseContext%2Cnode%3A%3A%3AYAML%3A%3ANodes%3A%3ANode%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/yaml/any.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(raw:Type)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(raw : <a href="../../Crystalizer/YAML/Any/Type.html">Type</a>)
+
+        <a class="method-permalink" href="#new%28raw%3AType%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/yaml/any.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="raw:Type-instance-method">
+      <div class="signature">
+        
+        def <strong>raw</strong> : <a href="../../Crystalizer/YAML/Any/Type.html">Type</a>
+
+        <a class="method-permalink" href="#raw%3AType-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from module <a href="../../Crystalizer/Any.html">Crystalizer::Any</a>
+            </div>
+          
+          <p>Returns the raw underlying value.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/yaml/any.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 1.6.2">
+<meta name="crystal_docs.project_version" content="master">
+<meta name="crystal_docs.project_name" content="crystalizer">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="crystalizer">
+  <title>Crystalizer::ByteFormat - crystalizer master</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          crystalizer
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="crystalizer/Crystalizer" data-name="crystalizer">
+      <a href="../Crystalizer.html">Crystalizer</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Any" data-name="crystalizer::any">
+      <a href="../Crystalizer/Any.html">Any</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Any/Error" data-name="crystalizer::any::error">
+      <a href="../Crystalizer/Any/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="crystalizer/Crystalizer/ByteFormat" data-name="crystalizer::byteformat">
+      <a href="../Crystalizer/ByteFormat.html">ByteFormat</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/ByteFormat/Error" data-name="crystalizer::byteformat::error">
+      <a href="../Crystalizer/ByteFormat/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Deserializer" data-name="crystalizer::deserializer">
+      <a href="../Crystalizer/Deserializer.html">Deserializer</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Deserializer/NamedTupleObject" data-name="crystalizer::deserializer::namedtupleobject(u, nt, n)">
+      <a href="../Crystalizer/Deserializer/NamedTupleObject.html">NamedTupleObject</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/NamedTupleObject/Error" data-name="crystalizer::deserializer::namedtupleobject::error">
+      <a href="../Crystalizer/Deserializer/NamedTupleObject/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/NonSelfDescribingObject" data-name="crystalizer::deserializer::nonselfdescribingobject(t)">
+      <a href="../Crystalizer/Deserializer/NonSelfDescribingObject.html">NonSelfDescribingObject</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/Deserializer/Object" data-name="crystalizer::deserializer::object(t)">
+      <a href="../Crystalizer/Deserializer/Object.html">Object</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/Object/Error" data-name="crystalizer::deserializer::object::error">
+      <a href="../Crystalizer/Deserializer/Object/Error.html">Error</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Deserializer/SelfDescribingObject" data-name="crystalizer::deserializer::selfdescribingobject(t, n)">
+      <a href="../Crystalizer/Deserializer/SelfDescribingObject.html">SelfDescribingObject</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Field" data-name="crystalizer::field">
+      <a href="../Crystalizer/Field.html">Field</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Format" data-name="crystalizer::format">
+      <a href="../Crystalizer/Format.html">Format</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/JSON" data-name="crystalizer::json">
+      <a href="../Crystalizer/JSON.html">JSON</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/JSON/Any" data-name="crystalizer::json::any">
+      <a href="../Crystalizer/JSON/Any.html">Any</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Any/Error" data-name="crystalizer::json::any::error">
+      <a href="../Crystalizer/JSON/Any/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Any/Type" data-name="crystalizer::json::any::type">
+      <a href="../Crystalizer/JSON/Any/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Deserializer" data-name="crystalizer::json::deserializer">
+      <a href="../Crystalizer/JSON/Deserializer.html">Deserializer</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Error" data-name="crystalizer::json::error">
+      <a href="../Crystalizer/JSON/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/JSON/Serializer" data-name="crystalizer::json::serializer">
+      <a href="../Crystalizer/JSON/Serializer.html">Serializer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Object" data-name="crystalizer::object">
+      <a href="../Crystalizer/Object.html">Object</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Serializer" data-name="crystalizer::serializer">
+      <a href="../Crystalizer/Serializer.html">Serializer</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Type" data-name="crystalizer::type">
+      <a href="../Crystalizer/Type.html">Type</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/Variable" data-name="crystalizer::variable(t, a)">
+      <a href="../Crystalizer/Variable.html">Variable</a>
+      
+    </li>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/YAML" data-name="crystalizer::yaml">
+      <a href="../Crystalizer/YAML.html">YAML</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="crystalizer/Crystalizer/YAML/Any" data-name="crystalizer::yaml::any">
+      <a href="../Crystalizer/YAML/Any.html">Any</a>
+      
+        <ul>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Any/Error" data-name="crystalizer::yaml::any::error">
+      <a href="../Crystalizer/YAML/Any/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Any/Type" data-name="crystalizer::yaml::any::type">
+      <a href="../Crystalizer/YAML/Any/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Deserializer" data-name="crystalizer::yaml::deserializer">
+      <a href="../Crystalizer/YAML/Deserializer.html">Deserializer</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Error" data-name="crystalizer::yaml::error">
+      <a href="../Crystalizer/YAML/Error.html">Error</a>
+      
+    </li>
+  
+  <li class=" " data-id="crystalizer/Crystalizer/YAML/Serializer" data-name="crystalizer::yaml::serializer">
+      <a href="../Crystalizer/YAML/Serializer.html">Serializer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Crystalizer::ByteFormat
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Crystalizer/ByteFormat.html">Crystalizer::ByteFormat</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Byte format, as implemented in the stdlib: https://crystal-lang.org/api/master/IO/ByteFormat.html.</p>
+<p>Important note: bytes representation of dynamic data structures like <code>Array</code> and <code>Hash</code> have no end delimiter.
+On an object, only one of it can be present as the last instance variable, otherwise they will collide with the next ones - having no delimiter to separate them.</p>
+<p>Unions are also not supported.</p>
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Crystalizer/Deserializer.html">Crystalizer::Deserializer</a></li>
+    
+      <li class="other-type"><a href="../Crystalizer/Serializer.html">Crystalizer::Serializer</a></li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="extended-modules" class="anchor" href="#extended-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Extended Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Crystalizer/Format.html">Crystalizer::Format</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L9" target="_blank">
+        byte_format.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L1" target="_blank">
+        byte_format/deserializer.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L1" target="_blank">
+        byte_format/serializer.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28io%3AIO%3DIO%3A%3AMemory.new%2Cformat%3AIO%3A%3AByteFormat%3DIO%3A%3AByteFormat%3A%3ASystemEndian%2Cstring_delimiter%3AChar%7CNil%3D%40%40string_delimiter%29-class-method" class="signature"><strong>.new</strong>(io : IO = <span class="t">IO</span><span class="t">::</span><span class="t">Memory</span>.new, format : IO::ByteFormat = <span class="t">IO</span><span class="t">::</span><span class="t">ByteFormat</span><span class="t">::</span><span class="t">SystemEndian</span>, string_delimiter : Char | Nil = @@string_delimiter)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28bytes%3ABytes%2Ctotype%3AT.class%29%3ATforallT-class-method" class="signature"><strong>.deserialize</strong>(bytes : Bytes, to type : <span class="t">T</span>.<span class="k">class</span>) : T forall T</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28io%3AIO%2Ctotype%3AT.class%29%3ATforallT-class-method" class="signature"><strong>.deserialize</strong>(io : IO, to type : <span class="t">T</span>.<span class="k">class</span>) : T forall T</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28io%3AIO%2Cobject%29%3ANil-class-method" class="signature"><strong>.serialize</strong>(io : IO, object) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28object%29%3ABytes-class-method" class="signature"><strong>.serialize</strong>(object) : Bytes</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#string_delimiter%3AChar%7CNil-class-method" class="signature"><strong>.string_delimiter</strong> : Char | Nil</a>
+        
+          <div class="summary"><p>Byte to delimit the end of a <code>String</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#string_delimiter%3D%28string_delimiter%3AChar%7CNil%29-class-method" class="signature"><strong>.string_delimiter=</strong>(string_delimiter : Char | Nil)</a>
+        
+          <div class="summary"><p>Byte to delimit the end of a <code>String</code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AString.class%2Cbytesize%3ARange%28Int32%7CNil%2CInt32%7CNil%29%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">String</span>.<span class="k">class</span>, bytesize : Range(Int32 | Nil, Int32 | Nil))</a>
+        
+          <div class="summary"><p>Deserializes a <code>String</code> from reading from the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>, delimited by a trailing <code><a href="../Crystalizer/ByteFormat.html#string_delimiter%3AChar%3F-instance-method">#string_delimiter</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AString.class%2Cbytesize%3AInt%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">String</span>.<span class="k">class</span>, bytesize : Int)</a>
+        
+          <div class="summary"><p>Deserializes a <code>String</code> from reading from the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3ACrystalizer%3A%3AType.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Crystalizer</span><span class="t">::</span><span class="t">Type</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AArray.class%7CDeque.class%7CSet.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Array</span>.<span class="k">class</span> | <span class="t">Deque</span>.<span class="k">class</span> | <span class="t">Set</span>.<span class="k">class</span>)</a>
+        
+          <div class="summary"><p>Requires the <code>@io</code> to be an <code>IO::Memory</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3ABool.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Bool</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3ABytes.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Bytes</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AEnum.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Enum</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AHash.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Hash</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3ANamedTuple.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">NamedTuple</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3ANumber%3A%3APrimitive.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Number</span><span class="t">::</span><span class="t">Primitive</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3APath.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Path</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AString.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">String</span>.<span class="k">class</span>)</a>
+        
+          <div class="summary"><p>Deserializes a <code>String</code> from reading from the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>, delimited by a trailing <code><a href="../Crystalizer/ByteFormat.html#string_delimiter%3AChar%3F-instance-method">#string_delimiter</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3ATuple.class%29-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">Tuple</span>.<span class="k">class</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deserialize%28totype%3AT.class%29%3ATforallT-instance-method" class="signature"><strong>#deserialize</strong>(to type : <span class="t">T</span>.<span class="k">class</span>) : T forall T</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format%3AIO%3A%3AByteFormat-instance-method" class="signature"><strong>#format</strong> : IO::ByteFormat</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format%3D%28format%3AIO%3A%3AByteFormat%29-instance-method" class="signature"><strong>#format=</strong>(format : IO::ByteFormat)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#io%3AIO-instance-method" class="signature"><strong>#io</strong> : IO</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28string%3AString%2Cbytesize%3AInt%29-instance-method" class="signature"><strong>#serialize</strong>(string : String, bytesize : Int)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28string%3AString%2Cbytesize%3ARange%28Int32%7CNil%2CInt32%7CNil%29%29-instance-method" class="signature"><strong>#serialize</strong>(string : String, bytesize : Range(Int32 | Nil, Int32 | Nil))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28object%3ACrystalizer%3A%3AType%29-instance-method" class="signature"><strong>#serialize</strong>(object : Crystalizer::Type)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28number%3ANumber%3A%3APrimitive%29-instance-method" class="signature"><strong>#serialize</strong>(number : Number::Primitive)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28bool%3ABool%29-instance-method" class="signature"><strong>#serialize</strong>(bool : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28bytes%3ABytes%29-instance-method" class="signature"><strong>#serialize</strong>(bytes : Bytes)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28object%3AEnum%29-instance-method" class="signature"><strong>#serialize</strong>(object : Enum)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28object%3ANamedTuple%7CHash%29-instance-method" class="signature"><strong>#serialize</strong>(object : NamedTuple | Hash)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28array%3AArray%7CDeque%7CSet%7CTuple%29-instance-method" class="signature"><strong>#serialize</strong>(array : Array | Deque | Set | Tuple)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28string%3APath%7CString%7CSymbol%2Cadd_delimiter%3ABool%3Dtrue%29-instance-method" class="signature"><strong>#serialize</strong>(string : Path | String | Symbol, add_delimiter : Bool = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Serializes a <code>String</code> to bytes, written to the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>, and add a trailing <code><a href="../Crystalizer/ByteFormat.html#string_delimiter%3AChar%3F-instance-method">#string_delimiter</a></code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#serialize%28object%3AO%29forallO-instance-method" class="signature"><strong>#serialize</strong>(object : O) forall O</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#string_delimiter%3AChar%3F-instance-method" class="signature"><strong>#string_delimiter</strong> : Char?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#string_delimiter%3D%28string_delimiter%3AChar%7CNil%29-instance-method" class="signature"><strong>#string_delimiter=</strong>(string_delimiter : Char | Nil)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Crystalizer/Serializer.html">Crystalizer::Serializer</a></code></h3>
+  
+  
+    <a href="../Crystalizer/Serializer.html#serialize%28object%3AO%29forallO-instance-method" class="tooltip">
+      <span>serialize(object : O) forall O</span>
+    serialize</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Crystalizer/Deserializer.html">Crystalizer::Deserializer</a></code></h3>
+  
+  
+    <a href="../Crystalizer/Deserializer.html#deserialize%28totype%3AT.class%29forallT-instance-method" class="tooltip">
+      <span>deserialize(to type : <span class="t">T</span>.<span class="k">class</span>) forall T</span>
+    deserialize</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(io:IO=IO::Memory.new,format:IO::ByteFormat=IO::ByteFormat::SystemEndian,string_delimiter:Char|Nil=@@string_delimiter)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(io : IO = <span class="t">IO</span><span class="t">::</span><span class="t">Memory</span>.new, format : IO::ByteFormat = <span class="t">IO</span><span class="t">::</span><span class="t">ByteFormat</span><span class="t">::</span><span class="t">SystemEndian</span>, string_delimiter : Char | Nil = @@string_delimiter)
+
+        <a class="method-permalink" href="#new%28io%3AIO%3DIO%3A%3AMemory.new%2Cformat%3AIO%3A%3AByteFormat%3DIO%3A%3AByteFormat%3A%3ASystemEndian%2Cstring_delimiter%3AChar%7CNil%3D%40%40string_delimiter%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="deserialize(bytes:Bytes,totype:T.class):TforallT-class-method">
+      <div class="signature">
+        
+        def self.<strong>deserialize</strong>(bytes : Bytes, to type : <span class="t">T</span>.<span class="k">class</span>) : T forall T
+
+        <a class="method-permalink" href="#deserialize%28bytes%3ABytes%2Ctotype%3AT.class%29%3ATforallT-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(io:IO,totype:T.class):TforallT-class-method">
+      <div class="signature">
+        
+        def self.<strong>deserialize</strong>(io : IO, to type : <span class="t">T</span>.<span class="k">class</span>) : T forall T
+
+        <a class="method-permalink" href="#deserialize%28io%3AIO%2Ctotype%3AT.class%29%3ATforallT-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(io:IO,object):Nil-class-method">
+      <div class="signature">
+        
+        def self.<strong>serialize</strong>(io : IO, object) : Nil
+
+        <a class="method-permalink" href="#serialize%28io%3AIO%2Cobject%29%3ANil-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(object):Bytes-class-method">
+      <div class="signature">
+        
+        def self.<strong>serialize</strong>(object) : Bytes
+
+        <a class="method-permalink" href="#serialize%28object%29%3ABytes-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="string_delimiter:Char|Nil-class-method">
+      <div class="signature">
+        
+        def self.<strong>string_delimiter</strong> : Char | Nil
+
+        <a class="method-permalink" href="#string_delimiter%3AChar%7CNil-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Byte to delimit the end of a <code>String</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="string_delimiter=(string_delimiter:Char|Nil)-class-method">
+      <div class="signature">
+        
+        def self.<strong>string_delimiter=</strong>(string_delimiter : Char | Nil)
+
+        <a class="method-permalink" href="#string_delimiter%3D%28string_delimiter%3AChar%7CNil%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Byte to delimit the end of a <code>String</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="deserialize(totype:String.class,bytesize:Range(Int32|Nil,Int32|Nil))-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">String</span>.<span class="k">class</span>, bytesize : Range(Int32 | Nil, Int32 | Nil))
+
+        <a class="method-permalink" href="#deserialize%28totype%3AString.class%2Cbytesize%3ARange%28Int32%7CNil%2CInt32%7CNil%29%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Deserializes a <code>String</code> from reading from the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>, delimited by a trailing <code><a href="../Crystalizer/ByteFormat.html#string_delimiter%3AChar%3F-instance-method">#string_delimiter</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L89" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:String.class,bytesize:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">String</span>.<span class="k">class</span>, bytesize : Int)
+
+        <a class="method-permalink" href="#deserialize%28totype%3AString.class%2Cbytesize%3AInt%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Deserializes a <code>String</code> from reading from the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>. String is exactly <code>bytesize</code> bytes with no trailing <code>@string_delimiter</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L108" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Crystalizer::Type.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Crystalizer</span><span class="t">::</span><span class="t">Type</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3ACrystalizer%3A%3AType.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L2" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Array.class|Deque.class|Set.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Array</span>.<span class="k">class</span> | <span class="t">Deque</span>.<span class="k">class</span> | <span class="t">Set</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3AArray.class%7CDeque.class%7CSet.class%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Requires the <code>@io</code> to be an <code>IO::Memory</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Bool.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Bool</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3ABool.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L31" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Bytes.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Bytes</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3ABytes.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Enum.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Enum</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3AEnum.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Hash.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Hash</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3AHash.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:NamedTuple.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">NamedTuple</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3ANamedTuple.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Number::Primitive.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Number</span><span class="t">::</span><span class="t">Primitive</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3ANumber%3A%3APrimitive.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L71" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Path.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Path</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3APath.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:String.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">String</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3AString.class%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Deserializes a <code>String</code> from reading from the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>, delimited by a trailing <code><a href="../Crystalizer/ByteFormat.html#string_delimiter%3AChar%3F-instance-method">#string_delimiter</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L80" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:Tuple.class)-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">Tuple</span>.<span class="k">class</span>)
+
+        <a class="method-permalink" href="#deserialize%28totype%3ATuple.class%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L112" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deserialize(totype:T.class):TforallT-instance-method">
+      <div class="signature">
+        
+        def <strong>deserialize</strong>(to type : <span class="t">T</span>.<span class="k">class</span>) : T forall T
+
+        <a class="method-permalink" href="#deserialize%28totype%3AT.class%29%3ATforallT-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/deserializer.cr#L124" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format:IO::ByteFormat-instance-method">
+      <div class="signature">
+        
+        def <strong>format</strong> : IO::ByteFormat
+
+        <a class="method-permalink" href="#format%3AIO%3A%3AByteFormat-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format=(format:IO::ByteFormat)-instance-method">
+      <div class="signature">
+        
+        def <strong>format=</strong>(format : IO::ByteFormat)
+
+        <a class="method-permalink" href="#format%3D%28format%3AIO%3A%3AByteFormat%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="io:IO-instance-method">
+      <div class="signature">
+        
+        def <strong>io</strong> : IO
+
+        <a class="method-permalink" href="#io%3AIO-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(string:String,bytesize:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(string : String, bytesize : Int)
+
+        <a class="method-permalink" href="#serialize%28string%3AString%2Cbytesize%3AInt%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L51" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(string:String,bytesize:Range(Int32|Nil,Int32|Nil))-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(string : String, bytesize : Range(Int32 | Nil, Int32 | Nil))
+
+        <a class="method-permalink" href="#serialize%28string%3AString%2Cbytesize%3ARange%28Int32%7CNil%2CInt32%7CNil%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L58" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(object:Crystalizer::Type)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(object : <a href="../Crystalizer/Type.html">Crystalizer::Type</a>)
+
+        <a class="method-permalink" href="#serialize%28object%3ACrystalizer%3A%3AType%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L2" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(number:Number::Primitive)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(number : Number::Primitive)
+
+        <a class="method-permalink" href="#serialize%28number%3ANumber%3A%3APrimitive%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(bool:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(bool : Bool)
+
+        <a class="method-permalink" href="#serialize%28bool%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(bytes:Bytes)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(bytes : Bytes)
+
+        <a class="method-permalink" href="#serialize%28bytes%3ABytes%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(object:Enum)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(object : Enum)
+
+        <a class="method-permalink" href="#serialize%28object%3AEnum%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(object:NamedTuple|Hash)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(object : NamedTuple | Hash)
+
+        <a class="method-permalink" href="#serialize%28object%3ANamedTuple%7CHash%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L30" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(array:Array|Deque|Set|Tuple)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(array : Array | Deque | Set | Tuple)
+
+        <a class="method-permalink" href="#serialize%28array%3AArray%7CDeque%7CSet%7CTuple%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L37" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(string:Path|String|Symbol,add_delimiter:Bool=true)-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(string : Path | String | Symbol, add_delimiter : Bool = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#serialize%28string%3APath%7CString%7CSymbol%2Cadd_delimiter%3ABool%3Dtrue%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Serializes a <code>String</code> to bytes, written to the <code><a href="../Crystalizer/ByteFormat.html#io%3AIO-instance-method">#io</a></code>, and add a trailing <code><a href="../Crystalizer/ByteFormat.html#string_delimiter%3AChar%3F-instance-method">#string_delimiter</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L44" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="serialize(object:O)forallO-instance-method">
+      <div class="signature">
+        
+        def <strong>serialize</strong>(object : O) forall O
+
+        <a class="method-permalink" href="#serialize%28object%3AO%29forallO-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format/serializer.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="string_delimiter:Char?-instance-method">
+      <div class="signature">
+        
+        def <strong>string_delimiter</strong> : Char?
+
+        <a class="method-permalink" href="#string_delimiter%3AChar%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="string_delimiter=(string_delimiter:Char|Nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>string_delimiter=</strong>(string_delimiter : Char | Nil)
+
+        <a class="method-permalink" href="#string_delimiter%3D%28string_delimiter%3AChar%7CNil%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/j8r/crystalizer/blob/46b9d4a9eb49c7d1e95c589a99b8688cadcbef8f/src/byte_format.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
